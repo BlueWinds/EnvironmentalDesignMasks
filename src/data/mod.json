@@ -1,0 +1,11 @@
+{
+  "Name": "EnvironmentalDesignMasks",
+  "Enabled": true,
+  "Version": "0.1.0",
+  "Author": "BlueWinds",
+  "DLL": "EnvironmentalDesignMasks.dll",
+  "DependsOn": [
+    "IRBTModUtils"
+  ],
+  "Manifest": []
+}

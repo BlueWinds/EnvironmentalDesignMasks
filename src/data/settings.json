@@ -1,0 +1,23 @@
+{
+  "debug": true,
+  "trace": true,
+  "biomeMoods": {
+    "highlandsFall": {
+      "VerdantAfternoonFoggy": 1,
+      "VerdantDayFoggy": 1,
+      "VerdantNightFoggy": 1,
+      "VerdantAfternoonCloudy": 1,
+      "VerdantDayRainy": 1,
+      "VerdantSunsetFoggy": 1,
+      "BoulderFieldMood": 1,
+      "VerdantDayWindy": 1
+    }
+  },
+  "biomeMoodBySystemTag": {
+    "planet_other_taintedair": {
+      "highlandsFall": {
+        "RedFog": 3
+      }
+    }
+  }
+}
