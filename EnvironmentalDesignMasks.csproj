@@ -80,6 +80,7 @@
     <Compile Include="src/patches/TagSetQueryExtensions.cs" />
     <Compile Include="src/patches/TurnDirector.cs" />
     <Compile Include="src/patches/UIManager.cs" />
+    <Compile Include="src/patches/WeatherController.cs" />
   </ItemGroup>
   <ItemGroup>
         <ModDataFiles Include="src/data/**/*.*"/>

@@ -1,5 +1,6 @@
 using System;
 using Harmony;
+using BattleTech;
 using BattleTech.Rendering.Mood;
 
 namespace EnvironmentalDesignMasks {

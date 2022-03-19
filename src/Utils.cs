@@ -121,5 +121,50 @@ namespace EnvironmentalDesignMasks {
             + $"\n    Flare streakMode: {fl.streakMode}"
             + "\n");
         }
+
+        public static WeatherController.WeatherEffect getWeatherEffect(string weatherVFXName) {
+            switch (weatherVFXName) {
+                case "vfxPrfPrtl_weatherCamRain":
+                case "vfxPrfPrtl_weatherCamRain_drizzle":
+                case "vfxPrfPrtl_weatherCamRain_storm":
+                case "vfxPrfPrtl_weatherCamRain_heavy":
+                case "vfxPrfPrtl_weatherCamRain_jungleMist":
+                case "vfxPrfPrtl_weatherCamRain_jungleStorm":
+                    return WeatherController.WeatherEffect.Rain;
+                case "vfxPrfPrtl_weatherCamSnow_blizzard":
+                case "vfxPrfPrtl_weatherCamSnow_calm":
+                case "vfxPrfPrtl_weatherCamSnow_martian":
+                    return WeatherController.WeatherEffect.Snow;
+                case "vfxPrfPrtl_weatherCam_windstorm":
+                case "vfxPrfPrtl_weatherCam_windstorm_martian":
+                case "vfxPrfPrtl_weatherCam_allergySeason":
+                default:
+                    return WeatherController.WeatherEffect.None;
+            }
+        }
+
+        // Testing reveals that this actually has no meaning - it's used *only* to decide if a weather "is raining"
+        // for purposes of sound effects. The different values set in basegame moods have no impact visually.
+        public static float getWeatherEffectIntensity(string weatherVFXName) {
+            switch (weatherVFXName) {
+                case "vfxPrfPrtl_weatherCamRain":
+                case "vfxPrfPrtl_weatherCamRain_storm":
+                case "vfxPrfPrtl_weatherCamRain_heavy":
+                case "vfxPrfPrtl_weatherCamRain_jungleStorm":
+                case "vfxPrfPrtl_weatherCamRain_drizzle":
+                    return 1;
+                // jungleMist doesn't look like rain, even though it's part of that group.
+                // Setting 0 here so that you don't get wet sounds while there's visually no rain.
+                case "vfxPrfPrtl_weatherCamRain_jungleMist":
+                case "vfxPrfPrtl_weatherCamSnow_blizzard":
+                case "vfxPrfPrtl_weatherCamSnow_calm":
+                case "vfxPrfPrtl_weatherCamSnow_martian":
+                case "vfxPrfPrtl_weatherCam_windstorm":
+                case "vfxPrfPrtl_weatherCam_windstorm_martian":
+                case "vfxPrfPrtl_weatherCam_allergySeason":
+                default:
+                    return 0;
+            }
+        }
     }
 }

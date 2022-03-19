@@ -4,27 +4,7 @@ EnvironmentalDesignMasks (EDM) is a mod for HBS's Battletech computer game. It a
 In `settings.json`, it is recommended to set `trace: false` when distributing to users. The trace logging level is extremely useful for modpack developers, but redundant and not very useful in bug reports. Leaving `debug: true` is recommended, as it contains information useful for diagnosing any issues users may encounter.
 
 ## Selecting Moods
-EDM overrides the basegame logic for how Moods are selected.
-
-### Biomes
-Mood selection is based on the map's biome. The complete list of base game biomes is:
-- `biomeIcyGlacier`
-- `biomeIcyTundra`
-- `biomeAridBadlands`
-- `biomeAridDesert`
-- `biomeVerdantHighlands`
-- `biomeVerdantLowlands`
-- `biomeVerdantJungle`
-- `biomeBarrenMars`
-- `biomeBarrenMoon`
-
-And added by Urban Warfare expansion:
-- `biomeCityUrban`
-
-Urban maps require no special handling by mod authors. If a player does not own the expansion, they simply won't get maps with urban terrain, and no custom moods or settings from this mod related to it will come up. The assets and definitions are all included in the base game, so there will be no null references
-
-### Contracts
-When generating a contract, EDM first assembles a list of all potential Moods, then draws one from the hat. This is done in two steps.
+EDM overrides the basegame logic for how Moods are selected. When generating a contract, EDM first assembles a list of all potential Moods, then draws one from the hat. This is done in two steps.
 
 0. If the contract specifies a `mapMood`, this will be used, bypassing all other steps.
 1. If the biome exists in `biomeMoods`, then each Mood is added to the list a number of times equal to its values.
@@ -53,7 +33,7 @@ For example, consider the following settings:
 We'll select a Mood for a contract with the `highlandsFall` biome.
 1. We start with a list with three items: `[VerdantAfternoonFoggy, BoulderFieldMood, BoulderFieldMood]`.
 2. If the player is currently at a star system with the `planet_other_taintedair` tag, then we'll add three more items: `[RedFog, RedFog, RedFog]`
-3. From our list of 6 items (one foggy afternoon, two boulder fields, three red fogs), one is now selected at random.
+3. From our list of 6 items (one FoggyAfternoon, two BoulderFields, three RedFogs), one is now selected at random.
 
 ### Skirmish
 For skirmish battles, the player selects a mood from the dropdown. This dropdown is populated with the appropriate basegame Moods, and then also any Custom Moods (see below) whose `moodTags` contain the appropriate biome.
@@ -112,7 +92,19 @@ Colors are specified in the format `{"r": 1, "g": 0.818, "b": 0.666}`, with an o
 - `windPulseFrequency`: float
 - `windPulseMagnitude`: float
 - `windTurbulence`: float
-- `weatherEffect`: One of `None`, `Rain` or `Snow`.
+- `weatherVFXName`: One of:
+  - `vfxPrfPrtl_weatherCamRain`
+  - `vfxPrfPrtl_weatherCamRain_drizzle`
+  - `vfxPrfPrtl_weatherCamRain_storm`
+  - `vfxPrfPrtl_weatherCamRain_heavy`
+  - `vfxPrfPrtl_weatherCamRain_jungleMist`
+  - `vfxPrfPrtl_weatherCamRain_jungleStorm`
+  - `vfxPrfPrtl_weatherCamSnow_blizzard`
+  - `vfxPrfPrtl_weatherCamSnow_calm`
+  - `vfxPrfPrtl_weatherCamSnow_martian`
+  - `vfxPrfPrtl_weatherCam_windstorm`
+  - `vfxPrfPrtl_weatherCam_windstorm_martian`
+  - `vfxPrfPrtl_weatherCam_allergySeason`
 - `weatherEffectIntensity`: float
 
 ### skySettings (optional)
@@ -144,7 +136,13 @@ Colors are specified in the format `{"r": 1, "g": 0.818, "b": 0.666}`, with an o
 
 ### tonemapSettings (optional)
 - `EV`: float
-- `tempPreset`: One of `Tungsten`, `Flourescent`, `Daylight`, `Cloudy`, `Shade` or `Custom`
+- `tempPreset`: One of:
+  - `Tungsten`
+  - `Flourescent`
+  - `Daylight`
+  - `Cloudy`
+  - `Shade`
+  - `Custom`
 - `whiteBalanceTemp`: float
 - `whiteBalanceTint`: float
 
@@ -154,7 +152,10 @@ Colors are specified in the format `{"r": 1, "g": 0.818, "b": 0.666}`, with an o
 - `bloomRadius`: float
 - `bloomIntensity`: float
 - `thresholdLinear`: float
-- `bloomSmear`: One of `Off`, `Horizontal` or `Vertical`
+- `bloomSmear`: One of:
+  - `Off`
+  - `Horizontal`
+  - `Vertical`
 - `bloomFlareIntensity`: float
 - `bloomFlareColors`: A list of exactly 10 colors. No more, no less.
 
@@ -164,4 +165,8 @@ Colors are specified in the format `{"r": 1, "g": 0.818, "b": 0.666}`, with an o
 - `saturation`: float
 
 ### flareSettings (optional)
-- `streakMode`: One of `None`, `Horizontal`, `Vertical` or `HorizAndVert`
+- `streakMode`: One of:
+  - `None`
+  - `Horizontal`
+  - `Vertical`
+  - `HorizAndVert`

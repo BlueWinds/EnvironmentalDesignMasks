@@ -51,8 +51,7 @@ namespace EnvironmentalDesignMasks {
       public float? windPulseFrequency;
       public float? windPulseMagnitude;
       public float? windTurbulence;
-      public WeatherController.WeatherEffect? weatherEffect;
-      public float? weatherEffectIntensity;
+      public string weatherVFXName;
     }
 
     public struct SkyJson {
@@ -144,7 +143,7 @@ namespace EnvironmentalDesignMasks {
                 throw new Exception("Couldn't load baseMood '{m.baseMood}'");
             }
 
-            MoodSettings s = m.MoodSettings = new MoodSettings();
+            MoodSettings s = m.MoodSettings = ScriptableObject.CreateInstance<MoodSettings>();
             s.uniqueFriendlyName = m.ID;
             s.sunXRotation = m.sunXRotation.GetValueOrDefault(parent.sunXRotation);
             s.sunYRotation = m.sunYRotation.GetValueOrDefault(parent.sunYRotation);
@@ -176,11 +175,10 @@ namespace EnvironmentalDesignMasks {
             s.weatherSettings.windPulseFrequency = m.weatherSettings.windPulseFrequency.GetValueOrDefault(parent.weatherSettings.windPulseFrequency);
             s.weatherSettings.windPulseMagnitude = m.weatherSettings.windPulseMagnitude.GetValueOrDefault(parent.weatherSettings.windPulseMagnitude);
             s.weatherSettings.windTurbulence = m.weatherSettings.windTurbulence.GetValueOrDefault(parent.weatherSettings.windTurbulence);
-            s.weatherSettings.weatherEffect = m.weatherSettings.weatherEffect.GetValueOrDefault(parent.weatherSettings.weatherEffect);
-            s.weatherSettings.weatherEffectIntensity = m.weatherSettings.weatherEffectIntensity.GetValueOrDefault(parent.weatherSettings.weatherEffectIntensity);
-            s.weatherSettings.weatherCameraVFX = parent.weatherSettings.weatherCameraVFX;
-            s.weatherSettings.weatherWorldVFX = parent.weatherSettings.weatherWorldVFX;
-            s.weatherSettings.RefreshName();
+
+            s.weatherSettings.weatherVFXName = m.weatherSettings.weatherVFXName == null ? parent.weatherSettings.weatherVFXName : m.weatherSettings.weatherVFXName;
+            s.weatherSettings.weatherEffect = Utils.getWeatherEffect(s.weatherSettings.weatherVFXName);
+            s.weatherSettings.weatherEffectIntensity = Utils.getWeatherEffectIntensity(s.weatherSettings.weatherVFXName);
 
             s.skySettings.rayleighMultiplier = m.skySettings.rayleighMultiplier.GetValueOrDefault(parent.skySettings.rayleighMultiplier);
             s.skySettings.mieMultiplier = m.skySettings.mieMultiplier.GetValueOrDefault(parent.skySettings.mieMultiplier);
@@ -273,8 +271,7 @@ namespace EnvironmentalDesignMasks {
             weatherSettings.windPulseFrequency = m.weatherSettings.windPulseFrequency;
             weatherSettings.windPulseMagnitude = m.weatherSettings.windPulseMagnitude;
             weatherSettings.windTurbulence = m.weatherSettings.windTurbulence;
-            weatherSettings.weatherEffect = m.weatherSettings.weatherEffect;
-            weatherSettings.weatherEffectIntensity = m.weatherSettings.weatherEffectIntensity;
+            weatherSettings.weatherVFXName = m.weatherSettings.weatherVFXName;
 
             skySettings.rayleighMultiplier = m.skySettings.rayleighMultiplier;
             skySettings.mieMultiplier = m.skySettings.mieMultiplier;

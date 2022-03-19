@@ -3,6 +3,52 @@
   "trace": false,
   "debugServer": true,
   "biomeMoods": {
+    "polarFrozen": {
+      "ArcticDayFoggy": 1,
+      "ArcticDayFrozen": 1,
+      "ArcticNightFrozen": 1,
+      "ArcticNightFoggy": 1,
+      "ArcticSunsetFoggy": 1,
+      "ArcticSunsetFrozen": 1
+    },
+    "tundraFrozen": {
+      "ArcticDayFoggy": 1,
+      "ArcticDayFrozen": 1,
+      "ArcticNightFrozen": 1,
+      "ArcticNightFoggy": 1,
+      "ArcticSunsetFoggy": 1,
+      "ArcticSunsetFrozen": 1
+    },
+    "desertParched": {
+      "JumbledKarstMood": 1,
+      "AridDayClear": 1,
+      "AridDayWindy": 1,
+      "AridNightClear": 1,
+      "AridNightFoggy": 1,
+      "AridSunsetClear": 1,
+      "AridSunsetFoggy": 1,
+      "AridTwilightClear": 1
+    },
+    "badlandsParched": {
+      "JumbledKarstMood": 1,
+      "AridDayClear": 1,
+      "AridDayWindy": 1,
+      "AridNightClear": 1,
+      "AridNightFoggy": 1,
+      "AridSunsetClear": 1,
+      "AridSunsetFoggy": 1,
+      "AridTwilightClear": 1
+    },
+    "highlandsSpring": {
+      "VerdantAfternoonFoggy": 1,
+      "VerdantDayFoggy": 1,
+      "VerdantNightFoggy": 1,
+      "VerdantAfternoonCloudy": 1,
+      "VerdantDayRainy": 1,
+      "VerdantSunsetFoggy": 1,
+      "BoulderFieldMood": 1,
+      "VerdantDayWindy": 1
+    },
     "highlandsFall": {
       "VerdantAfternoonFoggy": 1,
       "VerdantDayFoggy": 1,
@@ -12,7 +58,61 @@
       "VerdantSunsetFoggy": 1,
       "BoulderFieldMood": 1,
       "VerdantDayWindy": 1
-    }
+    },
+    "lowlandsSpring": {
+      "VerdantAfternoonFoggy": 1,
+      "VerdantDayFoggy": 1,
+      "VerdantNightFoggy": 1,
+      "VerdantAfternoonCloudy": 1,
+      "VerdantDayRainy": 1,
+      "VerdantSunsetFoggy": 1,
+      "BoulderFieldMood": 1,
+      "VerdantDayWindy": 1
+    },
+    "lowlandsFall": {
+      "VerdantAfternoonFoggy": 1,
+      "VerdantDayFoggy": 1,
+      "VerdantNightFoggy": 1,
+      "VerdantAfternoonCloudy": 1,
+      "VerdantDayRainy": 1,
+      "VerdantSunsetFoggy": 1,
+      "BoulderFieldMood": 1,
+      "VerdantDayWindy": 1
+    },
+    "lowlandsCoastal": {
+      "VerdantAfternoonFoggy": 1,
+      "VerdantDayFoggy": 1,
+      "VerdantNightFoggy": 1,
+      "VerdantAfternoonCloudy": 1,
+      "VerdantDayRainy": 1,
+      "VerdantSunsetFoggy": 1,
+      "BoulderFieldMood": 1,
+      "VerdantDayWindy": 1
+    },
+    "jungleTropical": {
+      "JungleSunsetClear": 1,
+      "JungleDayAllergySeason": 1,
+      "JungleDayMisty": 1,
+      "JungleNightMisty": 1,
+      "JungleSunsetFoggy": 1,
+      "JungleAfternoonMonsoon": 1
+    },
+    "martianVacuum": {
+      "MartianAfternoonDusty": 1,
+      "MartianNight": 1,
+      "MartianSunset": 1
+    },
+    "lunarVacuum": {
+      "LunarNight": 1,
+      "LunarSunset": 1
+    },
+    "urbanHighTech": {
+      "UrbanAfternoon": 1,
+      "UrbanDaySmoggy": 1,
+      "UrbanNightFoggy": 1,
+      "UrbanOvercast": 1,
+      "UrbanSunsetFoggy": 1
+    },
   },
   "biomeMoodBySystemTag": {
     "planet_other_taintedair": {

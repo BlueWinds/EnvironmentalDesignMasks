@@ -101,7 +101,9 @@ namespace EnvironmentalDesignMasks {
                             request.done(new CustomMood(Utils.getCurrentMood(), "Current"), 200);
                             break;
                         case "/updateMood":
-                            Utils.applyMoodLive(CustomMood.fromString(request.data));
+                            CustomMood newMood = CustomMood.fromString(request.data);
+                            Utils.logMoodSettings(newMood.MoodSettings);
+                            Utils.applyMoodLive(newMood);
                             request.done(null, 204);
                             break;
                         default:

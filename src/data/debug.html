@@ -20,7 +20,7 @@
         theme: {
           extend: {
             width: {
-              '256': '64rem',
+              '300': '75rem',
             }
           }
         }
@@ -32,13 +32,21 @@
         console.log($('#allMoods').val())
         if ($('#allMoods').val() === 'Current') {
           const response = await axios.get('/currentMood')
-          $('#currentMood').val(stringifyPrettyCompact(response.data, null, 2))
+          $('#currentMood').val(stringifyPrettyCompact(response.data))
           return
         }
 
-        const response = await axios({url: '/getMood', method: 'POST', data: $('#allMoods').val()})
+        const baseMood = $('#allMoods').val()
+        const response = await axios({url: '/getMood', method: 'POST', data: baseMood})
         delete response.data.moodTags;
-        $('#currentMood').val(stringifyPrettyCompact(response.data, null, 2))
+        $('#currentMood').val(stringifyPrettyCompact(response.data))
+        try {
+          const override = JSON.parse($('#override').val())
+          override.baseMood = baseMood
+          $('#override').val(stringifyPrettyCompact(override))
+        } catch (e) {
+          showAlert(e)
+        }
       }
 
       async function applyMood(selector) {
@@ -59,16 +67,39 @@
 
           await axios({url: '/updateMood', method: 'POST', data: JSON.stringify(data)})
         } catch (e) {
-          const alert = makeError(e.message);
-          $('#overrides').after(alert);
-          alert.delay(5000).animate({opacity: 0}, 500, () => {
-            alert.remove()
-          })
+          showAlert(e)
         }
       }
 
       function makeError(text) {
         return $(`<div class='text-center w-fit p-2 m-4 mx-auto bg-slate-900 rounded border-red-600 border-2'>${text}</div>`)
+      }
+
+      function showAlert(error) {
+        const alert = makeError(error.message);
+        $('#override').after(alert);
+        alert.delay(5000).animate({opacity: 0}, 500, () => {
+          alert.remove()
+        })
+      }
+
+      function setWeatherVFX() {
+        const weather = $('#weatherVFX').val()
+        try {
+          const override = JSON.parse($('#override').val())
+          override.weatherSettings = override.weatherSettings || {}
+          if (weather === 'empty') {
+            delete override.weatherSettings.weatherVFXName
+            if (Object.keys(override.weatherSettings).length === 0) {
+              delete override.weatherSettings
+            }
+          } else {
+            override.weatherSettings.weatherVFXName = weather
+          }
+          $('#override').val(stringifyPrettyCompact(override))
+        } catch (e) {
+          showAlert(e)
+        }
       }
 
       $(async () => {
@@ -87,7 +118,7 @@
     </script>
   </head>
   <body class="bg-slate-900 antialiased text-slate-300 min-h-screen">
-    <div class="container mx-auto w-256 shadow-xl p-4 bg-slate-800 p-6 min-h-screen text-center">
+    <div class="container mx-auto w-300 shadow-xl p-2 bg-slate-800 min-h-screen text-center">
       <div class="flex flex-row">
         <div class="basis-1/2 p-2">
           <div>
@@ -100,16 +131,35 @@
               Refresh
             </button>
           </div>
-          <textarea class="w-full rounded bg-slate-900 p-2 h-96 font-mono text-sm" id="currentMood">{}</textarea>
+          <textarea class="w-full rounded bg-slate-900 p-2 h-96 font-mono text-xs" id="currentMood">{}</textarea>
         </div>
         <div class="basis-1/2 p-2">
-          <button class="shadow-m bg-slate-900 p-3 m-2 rounded-md border-2 border-slate-600" onclick="applyMood('#overrides')">
+          <button class="shadow-m bg-slate-900 p-3 m-2 rounded-md border-2 border-slate-600" onclick="applyMood('#override')">
             Apply Mood
           </button>
-          <textarea class="w-full rounded bg-slate-900 p-2 h-96 font-mono text-sm" id="overrides">{
+          <textarea class="w-full rounded bg-slate-900 p-2 h-96 font-mono text-xs" id="override">{
   "ID": "Testing",
   "baseMood": "ArcticDayFoggy"
 }</textarea>
+          <label class="shadow-m bg-slate-900 p-3 m-2 rounded-md border-2 border-slate-600 inline-block">
+            Weather:
+            <select class="bg-slate-900" id="weatherVFX" onChange="setWeatherVFX()">
+              <option value="empty">Inherited</option>
+              <option value="">None</option>
+              <option value="vfxPrfPrtl_weatherCamRain">Rain</option>
+              <option value="vfxPrfPrtl_weatherCamRain_drizzle">Rain - Drizzle</option>
+              <option value="vfxPrfPrtl_weatherCamRain_storm">Rain - Storm</option>
+              <option value="vfxPrfPrtl_weatherCamRain_heavy">Rain - Heavy</option>
+              <option value="vfxPrfPrtl_weatherCamRain_jungleMist">Jungle Mist</option>
+              <option value="vfxPrfPrtl_weatherCamRain_jungleStorm">Jungle Storm</option>
+              <option value="vfxPrfPrtl_weatherCamSnow_calm">Snow - Calm</option>
+              <option value="vfxPrfPrtl_weatherCamSnow_blizzard">Snow - Blizzard</option>
+              <option value="vfxPrfPrtl_weatherCamSnow_martian">Snow - Martian</option>
+              <option value="vfxPrfPrtl_weatherCam_windstorm">Windstorm</option>
+              <option value="vfxPrfPrtl_weatherCam_windstorm_martian">Windstorm - Martian</option>
+              <option value="vfxPrfPrtl_weatherCam_allergySeason">Allergy Season</option>
+            </select>
+          </label>
         </div>
       </div>
     </div>
