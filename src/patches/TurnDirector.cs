@@ -12,20 +12,19 @@ namespace EnvironmentalDesignMasks {
     public static class TurnDirector_QueuePilotChatter {
         private static void Prefix(TurnDirector __instance) {
             try {
-                if (MoodController.Instance == null
-                    || MoodController.Instance.CurrentMood == null
-                    || !EDM.customMoods.ContainsKey(MoodController.Instance.CurrentMood.uniqueFriendlyName)
+                MoodSettings currentMood = Utils.getCurrentMood();
+                if (currentMood == null|| !EDM.customMoods.ContainsKey(currentMood.uniqueFriendlyName)
                 ) {
                     return;
                 }
 
-                CustomMood mood = EDM.customMoods[MoodController.Instance.CurrentMood.uniqueFriendlyName];
+                CustomMood mood = EDM.customMoods[currentMood.uniqueFriendlyName];
                 if (mood.startMission == null) {
-                    EDM.modLog.Info?.Write($"[QueuePilotChatter] {MoodController.Instance.CurrentMood.uniqueFriendlyName} has no startMission dialogue");
+                    EDM.modLog.Info?.Write($"[QueuePilotChatter] {currentMood.uniqueFriendlyName} has no startMission dialogue");
                     return;
                 }
 
-                string name = $"Dialog_{mood.Name}_startMission";
+                string name = $"Dialog_{mood.ID}_startMission";
                 EDM.modLog.Info?.Write($"[QueuePilotChatter] Displaying {name}");
 
                 GameObject encounterLayerGameObject = __instance.Combat.EncounterLayerData.gameObject;

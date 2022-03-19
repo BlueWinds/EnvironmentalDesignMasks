@@ -1,6 +1,7 @@
 {
   "debug": true,
-  "trace": true,
+  "trace": false,
+  "debugServer": true,
   "biomeMoods": {
     "highlandsFall": {
       "VerdantAfternoonFoggy": 1,

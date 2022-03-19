@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 using BattleTech;
 using BattleTech.Data;
 using BattleTech.Rendering;
@@ -12,19 +13,35 @@ using UnityEngine;
 using Harmony;
 
 namespace EnvironmentalDesignMasks {
+    public struct JsonColor {
+        public JsonColor(Color c) {
+          r = c.r;
+          g = c.g;
+          b = c.b;
+          a = c.a;
+        }
+        public float r;
+        public float g;
+        public float b;
+        public float a;
+
+        public static implicit operator JsonColor(Color c) => new JsonColor(c);
+        public static implicit operator Color(JsonColor c) => new Color(c.r, c.g, c.b, c.a);
+    }
+
     public struct SunlightJson {
       public float? illuminance;
       public float? angularDiameter;
       public bool? useTemperature;
       public float? colorTemperature;
-      public Color? sunColor;
+      public JsonColor? sunColor;
       public float? cloudCover;
       public float? cloudOpacity;
       public int? cloudSoftness;
-      public Color? flareTint;
+      public JsonColor? flareTint;
       public bool? sunGIOverride;
       public float? sunGI;
-      public Color? sundiscColor;
+      public JsonColor? sundiscColor;
       public bool? nightLights;
     }
 
@@ -43,9 +60,9 @@ namespace EnvironmentalDesignMasks {
       public float? mieMultiplier;
       public float? ozonePercent;
       public float? g;
-      public Color? skyTint;
-      public Color? mieTint;
-      public Color? skyBoost;
+      public JsonColor? skyTint;
+      public JsonColor? mieTint;
+      public JsonColor? skyBoost;
       public float? starIntensity;
       public bool? martian;
       public float? skyGIIntensity;
@@ -53,7 +70,7 @@ namespace EnvironmentalDesignMasks {
     }
 
     public struct FogJson {
-      public Color? fogTintColor;
+      public JsonColor? fogTintColor;
       public float? fogMieMultiplier;
       public float? fogRayleighMultiplier;
       public float? fogG;
@@ -82,7 +99,7 @@ namespace EnvironmentalDesignMasks {
       public float? thresholdLinear;
       public BTPostProcess.BloomSmear? bloomSmear;
       public float? bloomFlareIntensity;
-      public Color[] bloomFlareColors;
+      public JsonColor[] bloomFlareColors;
     }
 
     public struct MechJson {
@@ -94,14 +111,17 @@ namespace EnvironmentalDesignMasks {
       public BTPostProcess.FlareStreakMode? streakMode;
     }
 
+    [JsonObject(MemberSerialization.OptOut)]
     public class CustomMood {
         // The finalized MoodSettings usable by HBS BT
+        [NonSerialized()]
         public MoodSettings MoodSettings;
+        [NonSerialized()]
         public Mood_MDD Mood_MDD;
         public string designMask;
         public DialogueContent[] startMission;
 
-        public string Name;
+        public string ID;
         public string baseMood;
         public TagSet moodTags;
         public float? sunXRotation;
@@ -115,12 +135,8 @@ namespace EnvironmentalDesignMasks {
         public MechJson mechSettings;
         public FlareJson flareSettings;
 
-        public static CustomMood fromFile(string path) {
-            CustomMood m;
-            using (StreamReader reader = new StreamReader(path)) {
-                string jdata = reader.ReadToEnd();
-                m = JsonConvert.DeserializeObject<CustomMood>(jdata);
-            }
+        public static CustomMood fromString(string jdata) {
+            CustomMood m = JsonConvert.DeserializeObject<CustomMood>(jdata);
 
             MoodSettings parent = EDM.customMoods.ContainsKey(m.baseMood) ? EDM.customMoods[m.baseMood].MoodSettings : MoodSettings.LoadByName(m.baseMood);
 
@@ -129,12 +145,15 @@ namespace EnvironmentalDesignMasks {
             }
 
             MoodSettings s = m.MoodSettings = new MoodSettings();
-            s.uniqueFriendlyName = m.Name;
+            s.uniqueFriendlyName = m.ID;
             s.sunXRotation = m.sunXRotation.GetValueOrDefault(parent.sunXRotation);
             s.sunYRotation = m.sunYRotation.GetValueOrDefault(parent.sunYRotation);
             s.reflectionMap = parent.reflectionMap;
+
             s.moodTags = new TagSet(BattletechConstants.MoodTags);
-            s.moodTags.AddRange(m.moodTags);
+            if (m.moodTags != null) {
+                s.moodTags.AddRange(m.moodTags);
+            }
 
             s.sunlight.illuminance = m.sunlight.illuminance.GetValueOrDefault(parent.sunlight.illuminance);
             s.sunlight.angularDiameter = m.sunlight.angularDiameter.GetValueOrDefault(parent.sunlight.angularDiameter);
@@ -200,7 +219,7 @@ namespace EnvironmentalDesignMasks {
             s.bloomSettings.thresholdLinear = m.bloomSettings.thresholdLinear.GetValueOrDefault(parent.bloomSettings.thresholdLinear);
             s.bloomSettings.bloomSmear = m.bloomSettings.bloomSmear.GetValueOrDefault(parent.bloomSettings.bloomSmear);
             s.bloomSettings.bloomFlareIntensity = m.bloomSettings.bloomFlareIntensity.GetValueOrDefault(parent.bloomSettings.bloomFlareIntensity);
-            s.bloomSettings.bloomFlareColors = m.bloomSettings.bloomFlareColors == null ? parent.bloomSettings.bloomFlareColors : m.bloomSettings.bloomFlareColors;
+            s.bloomSettings.bloomFlareColors = m.bloomSettings.bloomFlareColors == null ? parent.bloomSettings.bloomFlareColors : m.bloomSettings.bloomFlareColors.Select(c => new Color(c.r, c.g, c.b, c.a)).ToArray();
             s.bloomSettings.bloomTints = parent.bloomSettings.bloomTints;
             s.bloomSettings.preset = parent.bloomSettings.preset;
             s.bloomSettings.bloomFlares = parent.bloomSettings.bloomFlares;
@@ -219,14 +238,88 @@ namespace EnvironmentalDesignMasks {
             s.OnValidate();
             MoodSettings.GetAllMoods(false).Add(s);
 
-            m.Mood_MDD = new Mood_MDD(m.Name, m.Name, m.Name, s.moodTags.GetTagSetSourceFile());
+            m.Mood_MDD = new Mood_MDD(m.ID, m.ID, m.ID, s.moodTags.GetTagSetSourceFile());
             Traverse.Create(m.Mood_MDD).Field("moodSettings").SetValue(s);
 
-            EDM.modLog.Info?.Write($"Loaded custom mood {m.Name}, based on {m.baseMood} from {path}."
-              + "\n    It has {(startMission == null ? 0 : startMission.Count)} startMission dialogue chunks and applies the \"{designMask}\" designMask"
-            );
-            Utils.logMoodSettings(m.MoodSettings);
             return m;
+        }
+
+        public CustomMood(MoodSettings m, string name) {
+            if (m == null || name == null) { return; }
+
+            MoodSettings = m;
+            Mood_MDD = new Mood_MDD(name, name, name, m.moodTags.GetTagSetSourceFile());
+            ID = name;
+            moodTags = m.moodTags;
+            sunXRotation = m.sunXRotation;
+            sunYRotation = m.sunYRotation;
+
+            sunlight.illuminance = m.sunlight.illuminance;
+            sunlight.angularDiameter = m.sunlight.angularDiameter;
+            sunlight.useTemperature = m.sunlight.useTemperature;
+            sunlight.colorTemperature = m.sunlight.colorTemperature;
+            sunlight.sunColor = m.sunlight.sunColor;
+            sunlight.cloudCover = m.sunlight.cloudCover;
+            sunlight.cloudOpacity = m.sunlight.cloudOpacity;
+            sunlight.cloudSoftness = m.sunlight.cloudSoftness;
+            sunlight.flareTint = m.sunlight.flareTint;
+            sunlight.sunGIOverride = m.sunlight.sunGIOverride;
+            sunlight.sunGI = m.sunlight.sunGI;
+            sunlight.sundiscColor = m.sunlight.sundiscColor;
+            sunlight.nightLights = m.sunlight.nightLights;
+
+            weatherSettings.windDirection = m.weatherSettings.windDirection;
+            weatherSettings.windMain = m.weatherSettings.windMain;
+            weatherSettings.windPulseFrequency = m.weatherSettings.windPulseFrequency;
+            weatherSettings.windPulseMagnitude = m.weatherSettings.windPulseMagnitude;
+            weatherSettings.windTurbulence = m.weatherSettings.windTurbulence;
+            weatherSettings.weatherEffect = m.weatherSettings.weatherEffect;
+            weatherSettings.weatherEffectIntensity = m.weatherSettings.weatherEffectIntensity;
+
+            skySettings.rayleighMultiplier = m.skySettings.rayleighMultiplier;
+            skySettings.mieMultiplier = m.skySettings.mieMultiplier;
+            skySettings.ozonePercent = m.skySettings.ozonePercent;
+            skySettings.g = m.skySettings.g;
+            skySettings.skyTint = m.skySettings.skyTint;
+            skySettings.mieTint = m.skySettings.mieTint;
+            skySettings.skyBoost = m.skySettings.skyBoost;
+            skySettings.starIntensity = m.skySettings.starIntensity;
+            skySettings.martian = m.skySettings.martian;
+            skySettings.skyGIIntensity = m.skySettings.skyGIIntensity;
+            skySettings.reflectionIntensity = m.skySettings.reflectionIntensity;
+
+            fogSettings.fogTintColor = m.fogSettings.fogTintColor;
+            fogSettings.fogMieMultiplier = m.fogSettings.fogMieMultiplier;
+            fogSettings.fogRayleighMultiplier = m.fogSettings.fogRayleighMultiplier;
+            fogSettings.fogG = m.fogSettings.fogG;
+            fogSettings.heightFogStart = m.fogSettings.heightFogStart;
+            fogSettings.heightFogDensity = m.fogSettings.heightFogDensity;
+            fogSettings.heightMieMultiplier = m.fogSettings.heightMieMultiplier;
+            fogSettings.heightRayleighMultiplier = m.fogSettings.heightRayleighMultiplier;
+            fogSettings.surveyedMieMultiplier = m.fogSettings.surveyedMieMultiplier;
+            fogSettings.surveyedIntensity = m.fogSettings.surveyedIntensity;
+            fogSettings.revealedMieMultiplier = m.fogSettings.revealedMieMultiplier;
+            fogSettings.revealedIntensity = m.fogSettings.revealedIntensity;
+
+            tonemapSettings.EV = m.tonemapSettings.EV;
+            tonemapSettings.tempPreset = m.tonemapSettings.tempPreset;
+            tonemapSettings.whiteBalanceTemp = m.tonemapSettings.whiteBalanceTemp;
+            tonemapSettings.whiteBalanceTint = m.tonemapSettings.whiteBalanceTint;
+
+            bloomSettings.threshold = m.bloomSettings.threshold;
+            bloomSettings.softKnee = m.bloomSettings.softKnee;
+            bloomSettings.bloomRadius = m.bloomSettings.bloomRadius;
+            bloomSettings.bloomIntensity = m.bloomSettings.bloomIntensity;
+            bloomSettings.thresholdLinear = m.bloomSettings.thresholdLinear;
+            bloomSettings.bloomSmear = m.bloomSettings.bloomSmear;
+            bloomSettings.bloomFlareIntensity = m.bloomSettings.bloomFlareIntensity;
+            bloomSettings.bloomFlareColors = m.bloomSettings.bloomFlareColors.Select(c => new JsonColor(c)).ToArray();
+
+            mechSettings.brightness = m.mechSettings.brightness;
+            mechSettings.contrast = m.mechSettings.contrast;
+            mechSettings.saturation = m.mechSettings.saturation;
+
+            flareSettings.streakMode = m.flareSettings.streakMode;
         }
     }
 }

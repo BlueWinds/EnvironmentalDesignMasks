@@ -39,6 +39,46 @@ namespace EnvironmentalDesignMasks {
             return valid;
         }
 
+        public static List<string> listMoods() {
+            List<string> moods = new List<string>();
+
+            List<Mood_MDD> basicMoods = MetadataDatabase.Instance.GetMatchingDataByTagSet<Mood_MDD>(TagSetType.Mood, new TagSet(), new TagSet(), "Mood", "ORDER BY FriendlyName");
+
+            foreach (Mood_MDD mood in basicMoods) {
+                if (mood.MoodSettings != null) {
+                    moods.Add(mood.Name);
+                }
+            }
+
+            moods.AddRange(EDM.customMoods.Keys);
+            return moods;
+        }
+
+        public static CustomMood jsonMood(string name) {
+            MoodSettings mood = EDM.customMoods.ContainsKey(name) ? EDM.customMoods[name].MoodSettings : MoodSettings.LoadByName(name);
+            if (mood == null) {
+                return null;
+            }
+
+            return new CustomMood(mood, name);
+        }
+
+        public static MoodSettings getCurrentMood() {
+            if (MoodController.Instance == null) {
+                return null;
+            }
+
+            return MoodController.Instance.CurrentMood;
+        }
+
+        public static void applyMoodLive(CustomMood mood) {
+            if (!MoodController.HasInstance) {
+                throw new Exception("No instance of MoodController");
+            }
+
+            MoodController.Instance.CurrentMood = mood.MoodSettings;
+        }
+
         public static void logAllMoods() {
             List<Mood_MDD> moods = MetadataDatabase.Instance.GetMatchingDataByTagSet<Mood_MDD>(TagSetType.Mood, new TagSet(), new TagSet(), "Mood", "ORDER BY FriendlyName");
 

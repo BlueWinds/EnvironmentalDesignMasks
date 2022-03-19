@@ -1,5 +1,6 @@
 {
-  "Name": "RedFog",
+  "name": "RedFog",
+  "ID": "RedFog",
   "baseMood": "ArcticDayFoggy",
   "moodTags": ["biomeAridBadlands", "biomeAridDesert"],
   "designMask": "DesignMaskGeothermalLava",

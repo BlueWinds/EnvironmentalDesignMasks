@@ -61,10 +61,14 @@ For skirmish battles, the player selects a mood from the dropdown. This dropdown
 ## Custom Moods
 EDM also supports the creation of custom moods (such as RedFog in the example above) by adding JSON documents to the `customMoods` folder.
 
+It is highly recommended to use the builtin debug server, which lets you modify moods on the fly and test out your settings without restarting the game. As long as it's enabled (`debugServer: true` in `settings.json`), you can access it any time Battletech is running by visiting [http://localhost:3062](http://localhost:3062).
+
+Use the dropdown on the left to view data about existing Moods - both builtin and Custom Moods loaded from json. Then drop into a contract (skirmish or career) and use the text entry on the right + the apply mood button to see your modifications live in game.
+
 ### Basic Fields
 Only two fields are required:
-- `Name`: A human readable name for the mood. Must be globally unique. This may be visible when selecting the mood for a skirmish, but is otherwise not used in the UI.
-- `baseMood`: The Name of the mood this one inherets from. Any optional properties (other than `moodTags`) not defined will be copied from the baseMood into this one. This can be either any mood from the base game (see the log file after loading into the game for a list), or another custom Mood already loaded.
+- `ID`: A human readable name for the mood. Must be globally unique. This may be visible when selecting the mood for a skirmish, but is otherwise not used in the UI.
+- `baseMood`: The ID of the mood this one inherets from. Any optional properties (other than `moodTags`) not defined will be copied from the baseMood into this one. This can be either any mood from the base game (see the log file after loading into the game for a list), or another custom Mood already loaded.
   - Custom Moods are loaded alphabetically, which means `moodZ` can have `moodA` as a baseMood, but not vis versa.
 
 All other fields are optional:
@@ -161,61 +165,3 @@ Colors are specified in the format `{"r": 1, "g": 0.818, "b": 0.666}`, with an o
 
 ### flareSettings (optional)
 - `streakMode`: One of `None`, `Horizontal`, `Vertical` or `HorizAndVert`
-
-
-## HBS Moods
-A list of HBS moods is provided here for convenience, when considering what moods to configure for each biome and for use as the `baseMood` when creating new ones.
-
-- `ArcticDayFoggy`
-- `ArcticDayFrozen`
-- `ArcticNightFrozen`
-- `ArcticNightFoggy`
-- `ArcticSunsetFoggy`
-- `ArcticSunsetFrozen`
-- `JumbledKarstMood`
-- `AridDayClear`
-- `AridDayWindy`
-- `AridNightClear`
-- `AridNightFoggy`
-- `AridSunsetClear`
-- `AridSunsetFoggy`
-- `AridTwilightClear`
-- `Baseline`
-- `DefaultMood`
-- `DesolationAfternoon`
-- `VerdantAfternoonFoggy`
-- `VerdantDayFoggy`
-- `VerdantNightFoggy`
-- `RestorationItrom`
-- `JungleSunsetClear`
-- `JungleDayAllergySeason`
-- `JungleDayMisty`
-- `JungleDayMistyTwo`
-- `JungleNightMisty`
-- `JungleSunsetFoggy`
-- `JungleAfternoonMonsoon`
-- `MartianAfternoon`
-- `MartianAfternoonDusty`
-- `MartianSunsetDusty`
-- `MartianNight`
-- `MartianSunset`
-- `RestorationPanzyrAttack`
-- `RestorationPanzyrDefense`
-- `VerdantAfternoonCloudy`
-- `VerdantDayRainy`
-- `RestorationSmithonAttack`
-- `RestorationSmithonDefense`
-- `VerdantSunsetFoggy`
-- `RestorationTylron`
-- `UrbanAfternoon`
-- `UrbanDaySmoggy`
-- `UrbanNightFoggy`
-- `UrbanOvercast`
-- `UrbanSunsetFoggy`
-- `LunarDay`
-- `LunarNight`
-- `LunarSunset`
-- `VerdantDaySunny`
-- `BoulderFieldMood`
-- `VerdantDayWindy`
-- `Zero`

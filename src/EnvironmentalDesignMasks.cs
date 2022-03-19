@@ -38,8 +38,17 @@ namespace EnvironmentalDesignMasks
             modLog.Info?.Write($"Initializing custom moods:");
             foreach (string path in Directory.GetFiles($"{modDir}/customMoods")) {
                 try {
-                    CustomMood mood = CustomMood.fromFile(path);
-                    customMoods[mood.Name] = mood;
+                    string jdata;
+                    using (StreamReader reader = new StreamReader(path)) {
+                        jdata = reader.ReadToEnd();
+                    }
+                    CustomMood mood = CustomMood.fromString(jdata);
+                    customMoods[mood.ID] = mood;
+
+                    EDM.modLog.Info?.Write($"Loaded custom mood {mood.ID}, based on {mood.baseMood} from {path}."
+                      + $"\n    It has {(mood.startMission == null ? 0 : mood.startMission.Count())} startMission dialogue chunks and applies the \"{mood.designMask}\" designMask"
+                    );
+                    Utils.logMoodSettings(mood.MoodSettings);
                 } catch (Exception e) {
                     modLog.Error?.Write($"Error processing {path}:");
                     modLog.Error?.Write(e);

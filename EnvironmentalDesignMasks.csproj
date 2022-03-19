@@ -70,14 +70,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src/CustomMood.cs" />
+    <Compile Include="src/DebugServer.cs" />
     <Compile Include="src/EnvironmentalDesignMasks.cs" />
     <Compile Include="src/Settings.cs" />
     <Compile Include="src/Utils.cs" />
     <Compile Include="src/patches/Contract.cs" />
+    <Compile Include="src/patches/MapMetaData.cs" />
     <Compile Include="src/patches/MoodController.cs" />
     <Compile Include="src/patches/TagSetQueryExtensions.cs" />
     <Compile Include="src/patches/TurnDirector.cs" />
-    <Compile Include="src/patches/MapMetaData.cs" />
+    <Compile Include="src/patches/UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
         <ModDataFiles Include="src/data/**/*.*"/>
