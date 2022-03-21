@@ -3,6 +3,16 @@ EnvironmentalDesignMasks (EDM) is a mod for HBS's Battletech computer game. It a
 ## Logging Levels
 In `settings.json`, it is recommended to set `trace: false` when distributing to users. The trace logging level is extremely useful for modpack developers, but redundant and not very useful in bug reports. Leaving `debug: true` is recommended, as it contains information useful for diagnosing any issues users may encounter.
 
+## DesignMask extensions
+
+EDM allows DesignMasks to define a new field, `additionalStickyEffects`, which is an array of status effects to apply in addition to the normal `stickyEffect`. Some rules about the effects in `additionalStickyEffects`:
+- If `stickyEffect` is not defined, they will be ignored. Always used `stickyEffect` first.
+- `Description.Details` will be ignored. Combine any necessary text into the description for the main `stickyEffect`.
+- They MUST have `Description.Icon: null` or `Description.Icon: ""`. Additional sticky effects never show up separately!
+- They MUST have `targetingData.showInStatusPanel: false` and `targetingData.showInTargetPreview: false`.
+
+See the included `designmasks/DesignMaskVerdantDayWindy.json` for a usage example.
+
 ## Selecting Moods
 EDM overrides the basegame logic for how Moods are selected. When generating a contract, EDM first assembles a list of all potential Moods, then draws one from the hat. This is done in two steps.
 
@@ -53,6 +63,7 @@ Only two fields are required:
 
 All other fields are optional:
 - `designMask`: The name of a design mask to apply when this custom mood applies. It replaces the basic biome design mask (which provides reduced heatsinking in deserts and lunar environments, for example).
+  - If this DesignMask has a `stickyEffect` (and maybe also `additionalStickyEffects`), these effects are reapplied every turn, during `OnActivationBegin`. It usually makes sense to use `"durationData": {"duration": -1, "stackLimit": 1}` for sticky effects applied by biomes
 - `startMission`: An array of dialogues to show on mission start (after other mission start dialogue, at the same time as pilot chatter). Interpolation works. Format is the same as other places dialogue chunks are defined (such as in contracts):
   ```
   "startMission": [

@@ -8,5 +8,10 @@
   "DependsOn": [
     "IRBTModUtils"
   ],
-  "Manifest": []
+  "Manifest": [
+    {
+      "Type": "DesignMaskDef",
+      "Path": "designmasks"
+    }
+  ]
 }

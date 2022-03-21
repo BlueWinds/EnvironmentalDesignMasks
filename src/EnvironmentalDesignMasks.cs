@@ -16,6 +16,7 @@ namespace EnvironmentalDesignMasks
         internal static string modDir;
         internal static Settings settings;
         public static Dictionary<string, CustomMood> customMoods = new Dictionary<string, CustomMood>();
+        public static Dictionary<string, EffectData[]> additionalStickyEffects = new Dictionary<string, EffectData[]>();
 
         public static void Init(string modDirectory, string settingsJSON) {
             modDir = modDirectory;
@@ -55,10 +56,7 @@ namespace EnvironmentalDesignMasks
                 }
             }
 
-            if (!Utils.ValidateSettings(settings)) {
-                throw new Exception("Settings are not valid, aborting to make this obvious.");
-            }
-            modLog.Info?.Write($"Settings are valid");
+            Utils.ValidateSettings(settings);
 
             var harmony = HarmonyInstance.Create("blue.winds.EnvironmentalDesignMasks");
             harmony.PatchAll(Assembly.GetExecutingAssembly());

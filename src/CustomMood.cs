@@ -149,10 +149,11 @@ namespace EnvironmentalDesignMasks {
             s.sunYRotation = m.sunYRotation.GetValueOrDefault(parent.sunYRotation);
             s.reflectionMap = parent.reflectionMap;
 
-            s.moodTags = new TagSet(BattletechConstants.MoodTags);
-            if (m.moodTags != null) {
-                s.moodTags.AddRange(m.moodTags);
+            if (m.moodTags == null) {
+                m.moodTags = parent.moodTags;
             }
+
+            s.moodTags = m.moodTags;
 
             s.sunlight.illuminance = m.sunlight.illuminance.GetValueOrDefault(parent.sunlight.illuminance);
             s.sunlight.angularDiameter = m.sunlight.angularDiameter.GetValueOrDefault(parent.sunlight.angularDiameter);

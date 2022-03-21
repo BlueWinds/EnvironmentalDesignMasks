@@ -74,7 +74,9 @@
     <Compile Include="src/EnvironmentalDesignMasks.cs" />
     <Compile Include="src/Settings.cs" />
     <Compile Include="src/Utils.cs" />
+    <Compile Include="src/patches/AbstractActor.cs" />
     <Compile Include="src/patches/Contract.cs" />
+    <Compile Include="src/patches/DesignMaskDef.cs" />
     <Compile Include="src/patches/MapMetaData.cs" />
     <Compile Include="src/patches/MoodController.cs" />
     <Compile Include="src/patches/TagSetQueryExtensions.cs" />

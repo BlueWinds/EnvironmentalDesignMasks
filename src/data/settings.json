@@ -4,121 +4,119 @@
   "debugServer": true,
   "biomeMoods": {
     "polarFrozen": {
-      "ArcticDayFoggy": 1,
       "ArcticDayFrozen": 1,
-      "ArcticNightFrozen": 1,
-      "ArcticNightFoggy": 1,
-      "ArcticSunsetFoggy": 1,
-      "ArcticSunsetFrozen": 1
+      "ArcticSunsetFrozen": 1,
+      "EDM Arctic Day Foggy": 1,
+      "EDM Arctic Night Frozen": 1,
+      "EDM Arctic Night Foggy": 1,
+      "EDM Arctic Sunset Foggy": 1
     },
     "tundraFrozen": {
-      "ArcticDayFoggy": 1,
       "ArcticDayFrozen": 1,
-      "ArcticNightFrozen": 1,
-      "ArcticNightFoggy": 1,
-      "ArcticSunsetFoggy": 1,
-      "ArcticSunsetFrozen": 1
+      "ArcticSunsetFrozen": 1,
+      "EDM Arctic Day Foggy": 1,
+      "EDM Arctic Night Frozen": 1,
+      "EDM Arctic Night Foggy": 1,
+      "EDM Arctic Sunset Foggy": 1
     },
     "desertParched": {
-      "JumbledKarstMood": 1,
       "AridDayClear": 1,
-      "AridDayWindy": 1,
-      "AridNightClear": 1,
-      "AridNightFoggy": 1,
       "AridSunsetClear": 1,
-      "AridSunsetFoggy": 1,
-      "AridTwilightClear": 1
+      "AridTwilightClear": 1,
+      "JumbledKarstMood": 1,
+      "EDM Arid Day Windy": 1,
+      "EDM Arid Sunset Foggy": 1,
+      "EDM Arid Night Clear": 1,
+      "EDM Arid Night Foggy": 1
     },
     "badlandsParched": {
-      "JumbledKarstMood": 1,
       "AridDayClear": 1,
-      "AridDayWindy": 1,
-      "AridNightClear": 1,
-      "AridNightFoggy": 1,
       "AridSunsetClear": 1,
-      "AridSunsetFoggy": 1,
-      "AridTwilightClear": 1
+      "AridTwilightClear": 1,
+      "JumbledKarstMood": 1,
+      "EDM Arid Day Windy": 1,
+      "EDM Arid Sunset Foggy": 1,
+      "EDM Arid Night Clear": 1,
+      "EDM Arid Night Foggy": 1
     },
     "highlandsSpring": {
-      "VerdantAfternoonFoggy": 1,
-      "VerdantDayFoggy": 1,
-      "VerdantNightFoggy": 1,
       "VerdantAfternoonCloudy": 1,
-      "VerdantDayRainy": 1,
-      "VerdantSunsetFoggy": 1,
       "BoulderFieldMood": 1,
-      "VerdantDayWindy": 1
+      "EDM Verdant Afternoon Foggy": 1,
+      "EDM Verdant Day Foggy": 1,
+      "EDM Verdant Day Rainy": 1,
+      "EDM Verdant Day Windy": 1,
+      "EDM Verdant Night Foggy": 1,
+      "EDM Verdant Sunset Foggy": 1
     },
     "highlandsFall": {
-      "VerdantAfternoonFoggy": 1,
-      "VerdantDayFoggy": 1,
-      "VerdantNightFoggy": 1,
       "VerdantAfternoonCloudy": 1,
-      "VerdantDayRainy": 1,
-      "VerdantSunsetFoggy": 1,
       "BoulderFieldMood": 1,
-      "VerdantDayWindy": 1
+      "EDM Verdant Afternoon Foggy": 1,
+      "EDM Verdant Day Foggy": 1,
+      "EDM Verdant Day Rainy": 1,
+      "EDM Verdant Day Windy": 1,
+      "EDM Verdant Sunset Foggy": 1,
+      "EDM Verdant Night Foggy": 1
     },
     "lowlandsSpring": {
-      "VerdantAfternoonFoggy": 1,
-      "VerdantDayFoggy": 1,
-      "VerdantNightFoggy": 1,
       "VerdantAfternoonCloudy": 1,
-      "VerdantDayRainy": 1,
-      "VerdantSunsetFoggy": 1,
       "BoulderFieldMood": 1,
-      "VerdantDayWindy": 1
+      "EDM Verdant Afternoon Foggy": 1,
+      "EDM Verdant Day Foggy": 1,
+      "EDM Verdant Day Rainy": 1,
+      "EDM Verdant Day Windy": 1,
+      "EDM Verdant Sunset Foggy": 1,
+      "EDM Verdant Night Foggy": 1
     },
     "lowlandsFall": {
-      "VerdantAfternoonFoggy": 1,
-      "VerdantDayFoggy": 1,
-      "VerdantNightFoggy": 1,
       "VerdantAfternoonCloudy": 1,
-      "VerdantDayRainy": 1,
-      "VerdantSunsetFoggy": 1,
       "BoulderFieldMood": 1,
-      "VerdantDayWindy": 1
+      "EDM Verdant Afternoon Foggy": 1,
+      "EDM Verdant Day Foggy": 1,
+      "EDM Verdant Day Rainy": 1,
+      "EDM Verdant Day Windy": 1,
+      "EDM Verdant Sunset Foggy": 1,
+      "EDM Verdant Night Foggy": 1
     },
     "lowlandsCoastal": {
-      "VerdantAfternoonFoggy": 1,
-      "VerdantDayFoggy": 1,
-      "VerdantNightFoggy": 1,
       "VerdantAfternoonCloudy": 1,
-      "VerdantDayRainy": 1,
-      "VerdantSunsetFoggy": 1,
       "BoulderFieldMood": 1,
-      "VerdantDayWindy": 1
+      "EDM Verdant Afternoon Foggy": 1,
+      "EDM Verdant Day Foggy": 1,
+      "EDM Verdant Day Rainy": 1,
+      "EDM Verdant Day Windy": 1,
+      "EDM Verdant Sunset Foggy": 1,
+      "EDM Verdant Night Foggy": 1
     },
     "jungleTropical": {
       "JungleSunsetClear": 1,
-      "JungleDayAllergySeason": 1,
-      "JungleDayMisty": 1,
-      "JungleNightMisty": 1,
-      "JungleSunsetFoggy": 1,
-      "JungleAfternoonMonsoon": 1
+      "EDM Jungle Afternoon Monsoon": 1,
+      "EDM Jungle Day Allergy Season": 1,
+      "EDM Jungle Day Misty": 1,
+      "EDM Jungle Night Misty": 1,
+      "EDM Jungle Sunset Foggy": 1
     },
     "martianVacuum": {
-      "MartianAfternoonDusty": 1,
-      "MartianNight": 1,
-      "MartianSunset": 1
+      "MartianSunset": 1,
+      "EDM Martian Afternoon Dusty": 1,
+      "EDM Martian Night": 1
     },
     "lunarVacuum": {
-      "LunarNight": 1,
-      "LunarSunset": 1
+      "LunarSunset": 1,
+      "EDM Lunar Night": 1
     },
     "urbanHighTech": {
       "UrbanAfternoon": 1,
-      "UrbanDaySmoggy": 1,
-      "UrbanNightFoggy": 1,
       "UrbanOvercast": 1,
-      "UrbanSunsetFoggy": 1
-    },
+      "EDM Urban Day Smoggy": 1,
+      "EDM Urban Night Foggy": 1,
+      "EDM Urban Sunset Foggy": 1
+    }
   },
   "biomeMoodBySystemTag": {
     "planet_other_taintedair": {
-      "highlandsFall": {
-        "RedFog": 3
-      }
+      "highlandsFall": {}
     }
   }
 }
