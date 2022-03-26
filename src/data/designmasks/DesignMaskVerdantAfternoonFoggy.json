@@ -3,7 +3,7 @@
     "Id": "DesignMaskVerdantAfternoonFoggy",
     "Name": "Foggy Afternoon",
     "Details": "Units sink an additional 4 heat per turn due to light rain. In the fog visibility is reduced to 80% of normal and all units have +1 defense.",
-    "Icon": "uixSvgIcon_biome_Normal"
+    "Icon": "fog"
   },
   "visibilityMultiplier": 0.8,
   "targetabilityModifier": 1,

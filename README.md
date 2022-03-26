@@ -5,11 +5,7 @@ In `settings.json`, it is recommended to set `trace: false` when distributing to
 
 ## DesignMask extensions
 
-EDM allows DesignMasks to define a new field, `additionalStickyEffects`, which is an array of status effects to apply in addition to the normal `stickyEffect`. Some rules about the effects in `additionalStickyEffects`:
-- If `stickyEffect` is not defined, they will be ignored. Always used `stickyEffect` first.
-- `Description.Details` will be ignored. Combine any necessary text into the description for the main `stickyEffect`.
-- They MUST have `Description.Icon: null` or `Description.Icon: ""`. Additional sticky effects never show up separately!
-- They MUST have `targetingData.showInStatusPanel: false` and `targetingData.showInTargetPreview: false`.
+EDM allows DesignMasks to define a new field, `additionalStickyEffects`, which is an array of status effects to apply in addition to the normal `stickyEffect`. If `stickyEffect` is not defined, they will be ignored. Always use `stickyEffect` first.
 
 See the included `designmasks/DesignMaskVerdantDayWindy.json` for a usage example.
 
@@ -76,7 +72,7 @@ All other fields are optional:
     }
   ]
   ```
-- `moodTags`: A list of biomes (see [Biomes](#Biomes)) for which this Mood can be selected in the Skirmish bay. These tags have no effect outside the skirmish bay.
+- `moodTags`: A list of biomes for which this Mood can be selected in the Skirmish bay. These tags have no effect outside the skirmish bay.
 - `sunXRotation`: A float (0 - 360) specifying where the sun appears in the sky.
 - `sunYRotation`: A float (0 - 360) specifying where the sun appears in the sky.
 

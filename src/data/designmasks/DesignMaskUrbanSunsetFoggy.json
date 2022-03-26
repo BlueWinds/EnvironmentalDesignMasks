@@ -3,7 +3,7 @@
     "Id": "DesignMaskUrbanSunsetFoggy",
     "Name": "Foggy Sunset",
     "Details": "In the fog visibility is reduced to 80% of normal and all units have +1 defense.",
-    "Icon": "uixSvgIcon_biome_Normal"
+    "Icon": "fog"
   },
   "heatSinkMultiplier": 1,
   "visibilityMultiplier": 0.8,

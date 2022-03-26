@@ -9,10 +9,6 @@ namespace EnvironmentalDesignMasks {
     [HarmonyPatch(typeof(DesignMaskDef), "FromJSON")]
     public static class DesignMaskDef_fromJSON {
 
-        private static bool isHidden(EffectData effect) {
-            return effect.targetingData.showInStatusPanel == false && effect.targetingData.showInTargetPreview == false && string.IsNullOrEmpty(effect.Description.Icon);
-        }
-
         public static void Prefix(ref string json) {
             try {
                 JObject definition = JObject.Parse(json);
@@ -30,10 +26,6 @@ namespace EnvironmentalDesignMasks {
 
                     effect.Description = new BaseDescriptionDef(d["Id"].ToObject<string>(), d["Name"].ToObject<string>(), d["Details"].ToObject<string>(), d["Icon"].ToObject<string>());
                     i++;
-                }
-
-                if (!Array.TrueForAll(additional, isHidden)) {
-//                     throw new Exception($"Ignoring additionalStickyEffects for {Id}. All of them must have \"showInStatusPanel\": false, \"showInTargetPreview\": false, and \"Description.Icon\": null | \"\".");
                 }
 
                 EDM.additionalStickyEffects[Id] = additional;

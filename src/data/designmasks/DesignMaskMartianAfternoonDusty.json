@@ -3,7 +3,7 @@
     "Id": "DesignMaskMartianAfternoonDusty",
     "Name": "Martian Dust Storm",
     "Details": "The dust storm leaves units nearly blind, reducing visual and sensor range to 60% of normal. All units have +2 defense. Units in a partial vacuum sink only 75% of their normal Heat. Ballstic and missile weapons, as well as jump jets, gain 15% more max range thanks to reduced gravity.",
-    "Icon": "uixSvgIcon_biome_PartialVacuum"
+    "Icon": "fog-martian"
   },
   "audioSwitchSurfaceType": "dirt",
   "audioSwitchRainingSurfaceType": "dirt",

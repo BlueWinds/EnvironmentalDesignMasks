@@ -3,7 +3,7 @@
     "Id": "DesignMaskJungleSunsetFoggy",
     "Name": "Foggy Sunset",
     "Details": "In the fog, visibility is reduced to 80% of normal and all units have +1 defense.",
-    "Icon": "uixSvgIcon_biome_Tropical"
+    "Icon": "fog-jungle"
   },
   "visibilityMultiplier": 0.8,
   "targetabilityModifier": 1

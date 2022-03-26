@@ -14,4 +14,4 @@ then
     exit
 fi
 
-nodemon -x "msbuild && rm -f 'EnvironmentalDesignMasks.zip' && cd '$BTPATH/Mods/EnvironmentalDesignMasks' && zip -x EnvironmentalDesignMasks.log -rq '$PWD/EnvironmentalDesignMasks.zip' ." -w src/ -e .
+nodemon -x "(rm -rf $BTPATH/Mods/EnvironmentalDesignMasks || true) && msbuild && rm -f 'EnvironmentalDesignMasks.zip' && cd '$BTPATH/Mods/EnvironmentalDesignMasks' && zip -x EnvironmentalDesignMasks.log -rq '$PWD/EnvironmentalDesignMasks.zip' ." -w src/ -e .

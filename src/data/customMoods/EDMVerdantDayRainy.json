@@ -2,5 +2,13 @@
   "ID": "EDM Verdant Day Rainy",
   "baseMood": "VerdantDayRainy",
   "designMask": "DesignMaskVerdantDayRainy",
-  "startMission": []
+  "startMission": [
+    {
+      "words": "That rain will help with heatsinking, Commander. Light 'em up.",
+      "wordsColor": {"r": 1, "g": 1, "b": 1},
+      "selectedCastDefId": "castDef_YangDefault",
+      "emote": "Default",
+      "audioName": "NONE"
+    }
+  ]
 }

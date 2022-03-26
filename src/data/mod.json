@@ -9,9 +9,7 @@
     "IRBTModUtils"
   ],
   "Manifest": [
-    {
-      "Type": "DesignMaskDef",
-      "Path": "designmasks"
-    }
+    {"Type": "DesignMaskDef", "Path": "designmasks"},
+    {"Type": "SVGAsset", "Path": "icons"}
   ]
 }

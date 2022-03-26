@@ -3,7 +3,7 @@
     "Id": "DesignMaskUrbanDaySmoggy",
     "Name": "Smoggy Day",
     "Details": "Heavy smog obscures everything, reducing visual and sensor range to 80% of normal. All units have +1 defense.",
-    "Icon": "uixSvgIcon_biome_Normal"
+    "Icon": "fog"
   },
   "targetabilityModifier": 1,
   "visibilityMultiplier": 0.8,

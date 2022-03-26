@@ -34,6 +34,7 @@ namespace EnvironmentalDesignMasks
                 modLog.Error?.Write(e);
             }
 
+
             Utils.logAllMoods();
 
             modLog.Info?.Write($"Initializing custom moods:");

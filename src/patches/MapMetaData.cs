@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Harmony;
 using BattleTech;
+using BattleTech.Data;
 using HBS.Util;
 
 namespace EnvironmentalDesignMasks {
@@ -15,8 +16,13 @@ namespace EnvironmentalDesignMasks {
                     Traverse biomeDesignMaskName = Traverse.Create(__instance).Field("biomeDesignMaskName");
 
                     EDM.modLog.Info?.Write($"Overriding biomeDesignMaskName from {biomeDesignMaskName.GetValue()} to {designMask} based on mood {mood}");
+                    EDM.modLog.Info?.Write($"Adding loadRequest for DesignMaskDef: {designMask}");
 
                     biomeDesignMaskName.SetValue(designMask);
+
+                    LoadRequest loadRequest = UnityGameInstance.BattleTechGame.DataManager.CreateLoadRequest();
+                    loadRequest.AddBlindLoadRequest(BattleTechResourceType.DesignMaskDef, designMask);
+                    loadRequest.ProcessRequests(1000U);
                 }
             } catch (Exception e) {
                 EDM.modLog.Error?.Write(e);
