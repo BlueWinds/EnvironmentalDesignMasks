@@ -196,17 +196,17 @@ e.g for the following in settings.json:
 ```
 If a contract mood contains moodTag `mood_timeMorning` AND `mood_timeDay`, the lighting would choose between 0 and 1 and NOT between 0, 1, 2, 4. The lighting profiles are always controlled by the same integer index value. Available lighting is as as follows:
 
-#### Index 0:
+#### Lighting Profile Index 0:
 ![TextPop](https://github.com/ajkroeg/EnvironmentalDesignMasks/blob/main/doc/lights_0.png)
 
-#### Index 1:
+#### Lighting Profile Index 1:
 ![TextPop](https://github.com/ajkroeg/EnvironmentalDesignMasks/blob/main/doc/lights_1.png)
 
-#### Index 2:
+#### Lighting Profile Index 2:
 ![TextPop](https://github.com/ajkroeg/EnvironmentalDesignMasks/blob/main/doc/lights_2.png)
 
-#### Index 3:
+#### Lighting Profile Index 3:
 ![TextPop](https://github.com/ajkroeg/EnvironmentalDesignMasks/blob/main/doc/lights_3.png)
 
-#### Index 4:
+#### Lighting Profile Index 4:
 ![TextPop](https://github.com/ajkroeg/EnvironmentalDesignMasks/blob/main/doc/lights_4.png)
