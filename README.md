@@ -180,7 +180,9 @@ Colors are specified in the format `{"r": 1, "g": 0.818, "b": 0.666}`, with an o
 
 ## Leopard/Deployment screen
 
-The lighting/time of day shown during the deployment screen is randomly chosen by default. EDM now allows you to control the lighting profile and match it to the appropriate moodTags for the current contract. EDM ships with appropriate default settings, but mod authors may wish to tweak them. Importantly, **the first matching tag found will control the lighting used.** If multiple lighting profiles are available for a given tag (the list of integers in the below setting), one will be chosen at random.
+The lighting/time of day shown during the deployment screen is randomly chosen by default. EDM now allows you to control the lighting profile and match it to the appropriate moodTags for the current contract. EDM ships with appropriate default settings, but mod authors may wish to tweak them.
+
+EDM looks at the chosen mood's `moodTags`, comparing them in order to `briefingCameraTimeTags`. The **first** matching tag is used, and a lighting profile randomly selected from that list.
 
 e.g for the following in settings.json:
 
