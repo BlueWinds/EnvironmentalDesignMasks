@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BattleTech;
 using BattleTech.Data;
 using BattleTech.Rendering;
-using BattleTech.Rendering.Mood;
 using BattleTech.UI;
 using Harmony;
-using HBS;
-using HBS.Collections;
 
 namespace EnvironmentalDesignMasks
 {
