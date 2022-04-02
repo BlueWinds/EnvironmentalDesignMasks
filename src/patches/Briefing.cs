@@ -33,7 +33,7 @@ namespace EnvironmentalDesignMasks
                     {
                         ___loadCam.lights[i].SetActive(false);
                         if (i == idx)___loadCam.lights[idx].SetActive(true);
-                        EDM.modLog.Info?.Write($"[Briefing.Init] found tag {tagSetting.Key}, setting lights at index {idx} active");
+                        EDM.modLog.Trace?.Write($"[Briefing.Init] found tag {tagSetting.Key}, setting lights at index {idx} active");
                     }
                     return;
                 }
