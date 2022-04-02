@@ -33,20 +33,26 @@ namespace EnvironmentalDesignMasks {
         public static void Prefix(AbstractActor __instance) {
             try {
                 DesignMaskDef biomeDesignMask = UnityGameInstance.BattleTechGame.Combat.MapMetaData.biomeDesignMask;
-                if (biomeDesignMask.stickyEffect == null)  {
-                    return;
-                }
-
-                EDM.modLog.Debug?.Write($"OnNewRound: Applying stickyEffect(s) from {biomeDesignMask.Id}");
-
-                __instance.CreateEffect(biomeDesignMask.stickyEffect, null, __instance.GUID, -1, __instance);
-                if (EDM.additionalStickyEffects.ContainsKey(biomeDesignMask.Id)) {
-                    foreach (EffectData effect in EDM.additionalStickyEffects[biomeDesignMask.Id]) {
-                        __instance.CreateEffect(effect, null, __instance.GUID, -1, __instance);
-                    }
-                }
+                applySticky(__instance, biomeDesignMask);
+                applySticky(__instance, __instance.occupiedDesignMask);
             } catch (Exception e) {
                 EDM.modLog.Error?.Write(e);
+            }
+        }
+
+        public static void applySticky(AbstractActor actor, DesignMaskDef mask) {
+            if (mask == null || mask.stickyEffect == null) {
+                return;
+            }
+
+            EffectManager em = UnityGameInstance.BattleTechGame.Combat.EffectManager;
+            EDM.modLog.Debug?.Write($"OnNewRound: Applying stickyEffect(s) from {mask.Id} to {actor.GUID}");
+
+            em.CreateEffect(mask.stickyEffect, mask.stickyEffect.Description.Id, -1, actor, actor, default(WeaponHitInfo), 1);
+            if (EDM.additionalStickyEffects.ContainsKey(mask.Id)) {
+                foreach (EffectData effect in EDM.additionalStickyEffects[mask.Id]) {
+                    em.CreateEffect(effect, effect.Description.Id, -1, actor, actor, default(WeaponHitInfo), 1);
+                }
             }
         }
     }

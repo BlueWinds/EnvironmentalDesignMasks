@@ -188,13 +188,13 @@ e.g for the following in settings.json:
 
 ```
 "briefingCameraTimeTags": {
-		"mood_timeMorning": [0,	1],
-		"mood_timeSunset": [0, 1, 3	],
-		"mood_timeAfternoon": [2, 4],
-		"mood_timeNoon": [2, 4],
-		"mood_timeDay": [0, 1, 2, 4],
-		"mood_timeNight": [3]
-	}
+  "mood_timeMorning": [0,	1],
+  "mood_timeSunset": [0, 1, 3	],
+  "mood_timeAfternoon": [2, 4],
+  "mood_timeNoon": [2, 4],
+  "mood_timeDay": [0, 1, 2, 4],
+  "mood_timeNight": [3]
+}
 ```
 If a contract mood contains moodTag `mood_timeMorning` AND `mood_timeDay`, the lighting would choose between 0 and 1 and NOT between 0, 1, 2, 4. The lighting profiles are always controlled by the same integer index value. Available lighting is as as follows:
 
