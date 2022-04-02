@@ -72,7 +72,7 @@ All other fields are optional:
     }
   ]
   ```
-- `moodTags`: A list of biomes for which this Mood can be selected in the Skirmish bay. ~~These tags have no effect outside the skirmish bay.~~ These moodTags also control the lighting in the leopard/deployment screen as defined by `briefingCameraTimeTags`.
+- `moodTags`: A list of biomes for which this Mood can be selected in the Skirmish bay. These moodTags also control the lighting in the leopard/deployment screen as defined by `briefingCameraTimeTags`, and determine which biomes a mood will be visible for in the skirmish bay.
 - `sunXRotation`: A float (0 - 360) specifying where the sun appears in the sky.
 - `sunYRotation`: A float (0 - 360) specifying where the sun appears in the sky.
 
