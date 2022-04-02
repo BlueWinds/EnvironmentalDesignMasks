@@ -54,7 +54,7 @@ Use the dropdown on the left to view data about existing Moods - both builtin an
 ### Basic Fields
 Only two fields are required:
 - `ID`: A human readable name for the mood. Must be globally unique. This may be visible when selecting the mood for a skirmish, but is otherwise not used in the UI.
-- `baseMood`: The ID of the mood this one inherets from. Any optional properties ~~(other than `moodTags`)~~ not defined will be copied from the baseMood into this one. This can be either any mood from the base game (see the log file after loading into the game for a list), or another custom Mood already loaded.
+- `baseMood`: The ID of the mood this one inherets from. Any optional properties not defined will be copied from the baseMood into this one. This can be either any mood from the base game (see the log file after loading into the game for a list), or another custom Mood already loaded.
   - Custom Moods are loaded alphabetically, which means `moodZ` can have `moodA` as a baseMood, but not vis versa.
 
 All other fields are optional:
