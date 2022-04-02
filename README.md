@@ -192,7 +192,7 @@ e.g for the following in settings.json:
 		"mood_timeSunset": [0, 1, 3	],
 		"mood_timeAfternoon": [2, 4],
 		"mood_timeNoon": [2, 4],
-		"mood_timeDay": [0,	1, 2, 4],
+		"mood_timeDay": [0, 1, 2, 4],
 		"mood_timeNight": [3]
 	}
 ```
