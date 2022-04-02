@@ -22,7 +22,9 @@ namespace EnvironmentalDesignMasks
             try
             {
                 var moodName = UnityGameInstance.BattleTechGame?.Combat?.ActiveContract?.mapMood;
-                if (moodName == null) return;
+                if (moodName == null) {
+                    return;
+                }
                 var moodTags = EDM.customMoods.ContainsKey(moodName) ? EDM.customMoods[moodName].moodTags : MetadataDatabase.Instance.GetMood(moodName).MoodSettings.moodTags;
                 if (EDM.settings.briefingCameraTimeTags.Count <= 0 || moodTags.Count <= 0) return;
                 foreach (var tagSetting in EDM.settings.briefingCameraTimeTags)
