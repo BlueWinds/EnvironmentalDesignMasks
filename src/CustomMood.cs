@@ -122,6 +122,8 @@ namespace EnvironmentalDesignMasks {
 
         public string ID;
         public string baseMood;
+        public string AmbienceAudio { get; set; } = string.Empty;
+        public string WeatherAudio { get; set; } = string.Empty;
         public TagSet moodTags;
         public float? sunXRotation;
         public float? sunYRotation;

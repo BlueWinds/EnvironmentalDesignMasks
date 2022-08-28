@@ -58,6 +58,7 @@ namespace EnvironmentalDesignMasks
             }
 
             Utils.ValidateSettings(settings);
+            CustomComponents.Registry.RegisterSimpleCustomComponents(Assembly.GetExecutingAssembly());
 
             var harmony = HarmonyInstance.Create("blue.winds.EnvironmentalDesignMasks");
             harmony.PatchAll(Assembly.GetExecutingAssembly());

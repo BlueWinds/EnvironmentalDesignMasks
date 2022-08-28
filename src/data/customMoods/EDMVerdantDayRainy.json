@@ -2,6 +2,7 @@
   "ID": "EDM Verdant Day Rainy",
   "baseMood": "VerdantDayRainy",
   "designMask": "DesignMaskVerdantDayRainy",
+  "WeatherAudio":"Stormy_May_Day",
   "startMission": [
     {
       "words": "That rain will help with heatsinking, Commander. Light 'em up.",

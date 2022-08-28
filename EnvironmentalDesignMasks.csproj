@@ -37,74 +37,73 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <Target Name="Production" BeforeTargets="Build">
-      <Message Importance="high" Text="$(BTPATH)" />
+    <Message Importance="high" Text="$(BTPATH)" />
   </Target>
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/0Harmony.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/Assembly-CSharp.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="CustomComponents">
+      <HintPath>..\..\Mods\Core\CustomComponents\CustomComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="CustomVoices">
+      <HintPath>..\..\Mods\Core\CustomVoices\CustomVoices.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/UnityEngine.ParticleSystemModule.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/UnityEngine.ParticleSystemModule.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" /><Reference Include="IRBTModUtils">
-      <HintPath>$(BTPATH)/Mods/IRBTModUtils/IRBTModUtils.dll</HintPath>
+    <Reference Include="System.Xml" />
+    <Reference Include="IRBTModUtils">
+      <HintPath>$(BattleTechGameDir)/Mods/Core/IRBTModUtils/IRBTModUtils.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>$(BTPATH)/BattleTech_Data/Managed/Newtonsoft.Json.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src/AssemblyInfo.cs" />
-    <Compile Include="src/CustomMood.cs" />
-    <Compile Include="src/DebugServer.cs" />
-    <Compile Include="src/EnvironmentalDesignMasks.cs" />
-    <Compile Include="src/Settings.cs" />
-    <Compile Include="src/Utils.cs" />
-    <Compile Include="src/patches/AbstractActor.cs" />
-    <Compile Include="src/patches/Contract.cs" />
-    <Compile Include="src/patches/DesignMaskDef.cs" />
-    <Compile Include="src/patches/MapMetaData.cs" />
-    <Compile Include="src/patches/MoodController.cs" />
-    <Compile Include="src/patches/TagSetQueryExtensions.cs" />
-    <Compile Include="src/patches/TurnDirector.cs" />
-    <Compile Include="src/patches/UIManager.cs" />
-    <Compile Include="src/patches/WeatherController.cs" />
+    <Compile Include="EnvorimentalDesign.cs" />
+    <Compile Include="src\AssemblyInfo.cs" />
+    <Compile Include="src\CustomMood.cs" />
+    <Compile Include="src\DebugServer.cs" />
+    <Compile Include="src\EnvironmentalDesignMasks.cs" />
+    <Compile Include="src\Settings.cs" />
+    <Compile Include="src\Utils.cs" />
+    <Compile Include="src\patches\AbstractActor.cs" />
+    <Compile Include="src\patches\Contract.cs" />
+    <Compile Include="src\patches\DesignMaskDef.cs" />
+    <Compile Include="src\patches\MapMetaData.cs" />
+    <Compile Include="src\patches\MoodController.cs" />
+    <Compile Include="src\patches\TagSetQueryExtensions.cs" />
+    <Compile Include="src\patches\TurnDirector.cs" />
+    <Compile Include="src\patches\UIManager.cs" />
+    <Compile Include="src\patches\WeatherController.cs" />
   </ItemGroup>
   <ItemGroup>
-        <ModDataFiles Include="src/data/**/*.*"/>
+    <ModDataFiles Include="src\data\**\*.*" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)/Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
-    <Copy
-      SourceFiles="$(TargetPath);LICENSE;README.md"
-      DestinationFolder="$(BTPATH)/Mods/EnvironmentalDesignMasks/"
-      OverwriteReadOnlyFiles="true"
-      SkipUnchangedFiles="false"
-    />
-    <Copy
-      SourceFiles="@(ModDataFiles)"
-      DestinationFiles="@(ModDataFiles->'$(BTPATH)/Mods/EnvironmentalDesignMasks/%(RecursiveDir)%(Filename)%(Extension)')"
-      OverwriteReadOnlyFiles="true"
-      SkipUnchangedFiles="false"
-    />
+    <Copy SourceFiles="$(TargetPath);LICENSE;README.md" DestinationFolder="$(BattleTechGameDir)/Mods/Core/EnvironmentalDesignMasks/" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="@(ModDataFiles)" DestinationFiles="@(ModDataFiles->'$(BattleTechGameDir)/Mods/Core/EnvironmentalDesignMasks/%(RecursiveDir)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="$(TargetPath);LICENSE;README.md" DestinationFolder="$(RogueTechRepo)/Core/EnviromentalDesignMasks/" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
   </Target>
 </Project>
