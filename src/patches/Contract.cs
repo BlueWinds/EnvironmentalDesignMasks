@@ -6,6 +6,20 @@ using BattleTech.Data;
 using HBS;
 
 namespace EnvironmentalDesignMasks {
+  [HarmonyPatch(typeof(Contract), "RequestConversations")]
+  public static class Contract_RequestConversations {
+    public static void Postfix(Contract __instance, LoadRequest loadRequest) {
+      EDM.modLog.Info?.Write($"Contract.RequestConversations: {__instance.mapMood}");
+      if (EDM.customMoods.TryGetValue(__instance.mapMood, out var customMood)) {
+        EDM.modLog.Info?.Write($" mood is custom {customMood.ID}.");
+        if(string.IsNullOrEmpty(customMood.weatherSettings.weatherVFXAdditionalName) == false) {
+          EDM.modLog.Info?.Write($" requesting {customMood.weatherSettings.weatherVFXAdditionalName}");
+          loadRequest.AddBlindLoadRequest(BattleTechResourceType.Prefab, customMood.weatherSettings.weatherVFXAdditionalName);
+        }
+      }
+    }
+  }
+
     [HarmonyPatch(typeof(Contract), "GetMood")]
     public static class Contract_GetMood {
         private static void addToList(Dictionary<string, int> add, ref List<string> potentialMoods) {

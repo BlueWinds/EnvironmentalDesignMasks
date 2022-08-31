@@ -17,11 +17,32 @@ namespace EnvironmentalDesignMasks
         internal static Settings settings;
         public static Dictionary<string, CustomMood> customMoods = new Dictionary<string, CustomMood>();
         public static Dictionary<string, EffectData[]> additionalStickyEffects = new Dictionary<string, EffectData[]>();
+    public static void FinishedLoading(List<string> loadOrder, Dictionary<string, Dictionary<string, VersionManifestEntry>> customResources) {
+      modLog.Info?.Write("FinishedLoading");
+      try {
+        foreach (var customResource in customResources) {
+          modLog.Info?.Write("customResource:" + customResource.Key);
+          if (customResource.Key == "CustomWeatherEffectAssembly") {
+            foreach (var resource in customResource.Value) {
+              try {
+                Assembly customWeatherAssembly = Assembly.LoadFile(resource.Value.FilePath);
+              } catch (Exception e) {
+                modLog.Error?.Write(resource.Value.FilePath + "\n" + e.ToString());
+              }
+            }
+          }
+        }
+        BasicHandler.WeatherLightFabric.CreateLight = BTWeatherLight.create;
+      } catch (Exception e) {
+        modLog.Error?.Write(e.ToString());
+      }
+    }
 
-        public static void Init(string modDirectory, string settingsJSON) {
+    public static void Init(string modDirectory, string settingsJSON) {
             modDir = modDirectory;
-
+            
             try {
+                Assembly basicHandler = Assembly.LoadFile(Path.Combine(modDirectory,"BasicHandler.dll"));
                 using (StreamReader reader = new StreamReader($"{modDir}/settings.json")) {
                     string jdata = reader.ReadToEnd();
                     settings = JsonConvert.DeserializeObject<Settings>(jdata);
@@ -58,7 +79,6 @@ namespace EnvironmentalDesignMasks
             }
 
             Utils.ValidateSettings(settings);
-            CustomComponents.Registry.RegisterSimpleCustomComponents(Assembly.GetExecutingAssembly());
 
             var harmony = HarmonyInstance.Create("blue.winds.EnvironmentalDesignMasks");
             harmony.PatchAll(Assembly.GetExecutingAssembly());

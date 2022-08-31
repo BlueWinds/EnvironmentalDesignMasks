@@ -44,14 +44,58 @@ namespace EnvironmentalDesignMasks {
       public JsonColor? sundiscColor;
       public bool? nightLights;
     }
-
-    public struct WeatherJson {
+  public struct RangeFloats {
+    public float? Minimum;
+    public float? Maximum;
+  }
+  public struct RangeInts {
+    public int? Minimum;
+    public int? Maximum;
+  }
+  public struct ThunderstormLightningSettings {
+    public float? JitterMultiplier;
+    public float? Turbulence;
+    public Vector3? TurbulenceVelocity;
+    public Vector2? IntensityFlicker;
+    public RangeFloats? IntervalRange;
+    public RangeInts? CountRange;
+    public float? CountProbabilityModifier;
+    public RangeFloats? DurationRange;
+    public RangeFloats? TrunkWidthRange;
+    public float? LifeTime;
+    public int? Generations;
+    public float? ChaosFactor;
+    public float? ChaosFactorForks;
+    public float? Intensity;
+    public float? GlowIntensity;
+    public float? GlowWidthMultiplier;
+    public float? FadePercent;
+    public float? FadeInMultiplier;
+    public float? FadeFullyLitMultiplier;
+    public float? FadeOutMultiplier;
+    public float? GrowthMultiplier;
+    public float? EndWidthMultiplier;
+    public float? Forkedness;
+    public float? ForkLengthMultiplier;
+    public float? ForkLengthVariance;
+    public float? ForkEndWidthMultiplier;
+    public float? LightningsHeight;
+    public float? LightningsDepth;
+    public RangeFloats? LightningLifetime;
+    public RangeFloats? LightningSpawn;
+    public string[] ThunderSFX;
+  }
+  public struct WeatherJson {
       public float? windDirection;
       public float? windMain;
       public float? windPulseFrequency;
       public float? windPulseMagnitude;
       public float? windTurbulence;
       public string weatherVFXName;
+      public string weatherVFXAdditionalName;
+      public string weatherVFXAdditionalType;
+      public bool? forceWeatherVFXEnable;
+      public ThunderstormLightningSettings? thunderstormLightningSettings;
     }
 
     public struct SkyJson {
@@ -182,6 +226,7 @@ namespace EnvironmentalDesignMasks {
             s.weatherSettings.weatherVFXName = m.weatherSettings.weatherVFXName == null ? parent.weatherSettings.weatherVFXName : m.weatherSettings.weatherVFXName;
             s.weatherSettings.weatherEffect = Utils.getWeatherEffect(s.weatherSettings.weatherVFXName);
             s.weatherSettings.weatherEffectIntensity = Utils.getWeatherEffectIntensity(s.weatherSettings.weatherVFXName);
+            m.weatherSettings.forceWeatherVFXEnable = m.weatherSettings.forceWeatherVFXEnable.HasValue ? m.weatherSettings.forceWeatherVFXEnable : false;
 
             s.skySettings.rayleighMultiplier = m.skySettings.rayleighMultiplier.GetValueOrDefault(parent.skySettings.rayleighMultiplier);
             s.skySettings.mieMultiplier = m.skySettings.mieMultiplier.GetValueOrDefault(parent.skySettings.mieMultiplier);

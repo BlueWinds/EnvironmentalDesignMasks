@@ -50,14 +50,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="CustomComponents">
-      <HintPath>..\..\Mods\Core\CustomComponents\CustomComponents.dll</HintPath>
+    <Reference Include="BasicHandler">
+      <HintPath>$(BattleTechGameDir)\Mods\Core\EnvironmentalDesignMasks\BasicHandler.dll</HintPath>
     </Reference>
     <Reference Include="CustomVoices">
-      <HintPath>..\..\Mods\Core\CustomVoices\CustomVoices.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\Mods\Core\CustomVoices\CustomVoices.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
       <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ThunderStormWeather">
+      <HintPath>$(BattleTechGameDir)\Mods\Core\EnvironmentalDesignMasks\dlls\ThunderStormWeather.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>$(BattleTechGameDir)/BattleTech_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
@@ -103,7 +106,6 @@
   <Import Project="$(MSBuildToolsPath)/Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(TargetPath);LICENSE;README.md" DestinationFolder="$(BattleTechGameDir)/Mods/Core/EnvironmentalDesignMasks/" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
-    <Copy SourceFiles="@(ModDataFiles)" DestinationFiles="@(ModDataFiles->'$(BattleTechGameDir)/Mods/Core/EnvironmentalDesignMasks/%(RecursiveDir)%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
     <Copy SourceFiles="$(TargetPath);LICENSE;README.md" DestinationFolder="$(RogueTechRepo)/Core/EnviromentalDesignMasks/" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
   </Target>
 </Project>

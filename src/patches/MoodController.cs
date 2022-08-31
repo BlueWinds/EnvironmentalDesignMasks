@@ -15,7 +15,10 @@ namespace EnvironmentalDesignMasks {
 
                     CustomMoodController customMoodController = __instance.gameObject.GetComponent<CustomMoodController>();
                     if(customMoodController == null) { customMoodController = __instance.gameObject.AddComponent<CustomMoodController>(); }
+                    CustomWeatherController customWeatherController = __instance.weatherController.gameObject.GetComponent<CustomWeatherController>();
+                    if(customWeatherController == null) { customWeatherController = __instance.weatherController.gameObject.AddComponent<CustomWeatherController>(); }
                     customMoodController.currentCustomMood = customMood;
+                    customWeatherController.currentCustomMood = customMood;
                     if (applyMood) {
                         __instance.ApplyMood(refreshSky: true, refreshMusic: false);
                     }
