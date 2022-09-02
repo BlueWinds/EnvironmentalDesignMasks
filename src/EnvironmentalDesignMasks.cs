@@ -12,30 +12,36 @@ using UnityEngine;
 namespace EnvironmentalDesignMasks
 {
     public class EDM {
+        internal static Dictionary<string, string> weatherAssembles = new Dictionary<string, string>();
         internal static DeferringLogger modLog;
         internal static string modDir;
         internal static Settings settings;
         public static Dictionary<string, CustomMood> customMoods = new Dictionary<string, CustomMood>();
         public static Dictionary<string, EffectData[]> additionalStickyEffects = new Dictionary<string, EffectData[]>();
-    public static void FinishedLoading(List<string> loadOrder, Dictionary<string, Dictionary<string, VersionManifestEntry>> customResources) {
+    public static void FinishedLoading(List<string> loadOrder) {
       modLog.Info?.Write("FinishedLoading");
       try {
-        foreach (var customResource in customResources) {
-          modLog.Info?.Write("customResource:" + customResource.Key);
-          if (customResource.Key == "CustomWeatherEffectAssembly") {
-            foreach (var resource in customResource.Value) {
-              try {
-                Assembly customWeatherAssembly = Assembly.LoadFile(resource.Value.FilePath);
-              } catch (Exception e) {
-                modLog.Error?.Write(resource.Value.FilePath + "\n" + e.ToString());
-              }
-            }
-          }
-        }
         BasicHandler.WeatherLightFabric.CreateLight = BTWeatherLight.create;
       } catch (Exception e) {
         modLog.Error?.Write(e.ToString());
       }
+    }
+
+    private static Assembly ResolveAssembly(System.Object sender, ResolveEventArgs evt) {
+      Assembly res = null;
+      try {
+        EDM.modLog.Info?.Write("fail to resolve assembly:" + evt.Name);
+        AssemblyName assemblyName = new AssemblyName(evt.Name);
+        if (weatherAssembles.TryGetValue(assemblyName.Name, out string path)) {
+          EDM.modLog.Info?.Write(" loading weather assembly:"+path);
+          res = Assembly.LoadFile(path);
+        } else {
+          EDM.modLog.Info?.Write(" not a weather assembly");
+        }
+      }catch(Exception err) {
+        EDM.modLog.Error?.Write(err.ToString());
+      }
+      return res;
     }
 
     public static void Init(string modDirectory, string settingsJSON) {
@@ -49,6 +55,17 @@ namespace EnvironmentalDesignMasks
                 }
                 modLog = new DeferringLogger(modDirectory, "EDM", "EDM", settings.debug, settings.trace);
                 modLog.Debug?.Write($"Loaded settings from {modDir}/settings.json. Version {typeof(Settings).Assembly.GetName().Version}");
+                foreach(string assemblyPath in Directory.GetFiles(Path.Combine(modDirectory,settings.assembliesFolder),"*.dll", SearchOption.AllDirectories)) {
+                  try {
+                    string name = AssemblyName.GetAssemblyName(assemblyPath).Name;
+                    weatherAssembles.Add(name, assemblyPath);
+                    modLog.Info?.Write($" '{name}' '{assemblyPath}'");
+                  }catch(Exception e) {
+                    modLog.Error?.Write(e.ToString());
+                  }                  
+                }
+                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += ResolveAssembly;
+                AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
             } catch (Exception e) {
                 settings = new Settings();
                 modLog = new DeferringLogger(modDir, "EDM", "EDM", true, true);

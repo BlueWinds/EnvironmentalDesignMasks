@@ -99,7 +99,11 @@ namespace EnvironmentalDesignMasks {
                   go.name = customWeatherController.currentCustomMood.weatherSettings.weatherVFXAdditionalName;
                   go.hideFlags = HideFlags.DontSave;
                   go.transform.parent = __instance.transform;
-                  customWeatherController.additionalWeatherVFX.basicController = CustomWeatherController.createController(customWeatherController.currentCustomMood.weatherSettings.weatherVFXAdditionalType, customWeatherController.additionalWeatherVFX, customWeatherController.currentCustomMood);
+                  try {
+                    customWeatherController.additionalWeatherVFX.basicController = CustomWeatherController.createController(customWeatherController.currentCustomMood.weatherSettings.weatherVFXAdditionalType, customWeatherController.additionalWeatherVFX, customWeatherController.currentCustomMood);
+                  }catch(Exception e) {
+                    EDM.modLog.Error?.Write(e.ToString());
+                  }
                 }
               }
             }

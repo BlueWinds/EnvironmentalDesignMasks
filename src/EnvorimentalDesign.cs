@@ -40,16 +40,18 @@ namespace EnvironmentalDesignMasks {
   }
   public class ThunderstormController: DefaultController {
     public SimpleTunderstormScript tunderstorm { get; set; } = null;
-    public RangeFloats spawnRange = new RangeFloats() { Minimum = 3f, Maximum = 5f };
+    public float SpawnIntervalMin = 5f;
+    public float SpawnIntervalMax = 7f;
     public float Height = 1000f;
     public float Depth = 0f;
     protected float t;
     public bool Is01(float a) {
       return a > 0 && a < 1;
     }
-    public override void Update(float deltaTime) {
-      base.Update(deltaTime);
-      t -= deltaTime;
+    public override void Update() {
+      base.Update();
+      if (tunderstorm == null) { return; }
+      t -= Time.deltaTime;
       if(t < Core.Epsilon) {
         t = next();
         Vector3 end = this.mainCamera.transform.position + this.mainCamera.transform.forward * 200f;
@@ -75,18 +77,19 @@ namespace EnvironmentalDesignMasks {
       }
     }
     protected virtual float next() {
-      return Random.Range(spawnRange.Minimum.Value, spawnRange.Maximum.Value);
+      return Random.Range(SpawnIntervalMin, SpawnIntervalMax);
     }
-    public ThunderstormController(SimpleTunderstormScript w, CustomMood m) : base(w,m) {
-      this.tunderstorm = w;
+    public override void Init(ControllableWeather w, CustomMood m) {
+      base.Init(w, m);
+      this.tunderstorm = w as SimpleTunderstormScript;
       if (customMood == null) { goto end_init; }
       if (customMood.weatherSettings.thunderstormLightningSettings.HasValue == false) { goto end_init; }
       if (customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.HasValue) {
         if (customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.Value.Minimum.HasValue) {
-          this.spawnRange.Minimum = customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.Value.Minimum;
+          this.SpawnIntervalMin = customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.Value.Minimum.Value;
         }
         if (customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.Value.Maximum.HasValue) {
-          this.spawnRange.Maximum = customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.Value.Maximum;
+          this.SpawnIntervalMax = customMood.weatherSettings.thunderstormLightningSettings.Value.LightningSpawn.Value.Maximum.Value;
         }
       }
       foreach (var lightning in this.tunderstorm.lightnings) {
@@ -195,7 +198,7 @@ namespace EnvironmentalDesignMasks {
       if (customMood.weatherSettings.thunderstormLightningSettings.Value.LightningsHeight.HasValue) {
         this.Height = customMood.weatherSettings.thunderstormLightningSettings.Value.LightningsHeight.Value;
       }
-      if (customMood.weatherSettings.thunderstormLightningSettings.Value.ThunderSFX != null) {
+      if (customMood.weatherSettings.thunderstormLightningSettings.Value.LightningsDepth.HasValue) {
         this.Depth = customMood.weatherSettings.thunderstormLightningSettings.Value.LightningsDepth.Value;
       }
     end_init:
@@ -203,14 +206,14 @@ namespace EnvironmentalDesignMasks {
     }
   }
   public class CameraFollowController : DefaultController {
-    public override void Update(float deltaTime) {
-      base.Update(deltaTime);
+    public override void Update() {
+      base.Update();
       this.weather.transform.position = this.mainCamera.transform.position;
       this.weather.transform.rotation = this.mainCamera.transform.rotation;
     }
-    public CameraFollowController(ControllableWeather w, CustomMood m) : base(w,m) { }
+    public CameraFollowController() : base() { }
   }
-    public class DefaultController: BasicControllerWeather {
+  public class DefaultController: BasicControllerWeather {
     private Camera _mainCamera;
     public ControllableWeather weather { get; set; } = null;
     public CustomMood customMood { get; set; } = null;
@@ -226,7 +229,7 @@ namespace EnvironmentalDesignMasks {
         return UnityGameInstance.BattleTechGame.Combat;
       }
     }
-    public override void Update(float deltaTime) {
+    public override void Update() {
     }
     public override void PlaySFX(string sfx) {
       EDM.modLog.Info?.Write("Play weather sfx "+sfx);
@@ -243,7 +246,9 @@ namespace EnvironmentalDesignMasks {
     public override void Error(string message) {
       EDM.modLog.Error?.Write(message);
     }
-    public DefaultController(ControllableWeather w, CustomMood m) {
+    public DefaultController() {
+    }
+    public virtual void Init(ControllableWeather w, CustomMood m) {
       this.weather = w;
       this.customMood = m;
     }
@@ -289,16 +294,34 @@ namespace EnvironmentalDesignMasks {
     public CustomMood currentCustomMood { get; set; } = null;
     public BasicHandler.ControllableWeather additionalWeatherVFX { get; set; } = null;
     public static BasicControllerWeather createController(string name, ControllableWeather component, CustomMood mood) {
+      DefaultController result = null;
       if (name == "Thunderstorm") {
-        return new ThunderstormController(component as SimpleTunderstormScript, mood);
+        result = component.gameObject.GetComponent<ThunderstormController>();
+        if (result == null) {
+          ThunderstormController thunderstorm = component.gameObject.AddComponent<ThunderstormController>();
+          result = thunderstorm;
+        }
       }else if (name == "Default") {
-        return new DefaultController(component, mood);
+        result = component.gameObject.GetComponent<DefaultController>();
+        if (result == null) {
+          result = component.gameObject.AddComponent<DefaultController>();
+        }
       } else if (name == "CameraFollow") {
-        return new CameraFollowController(component, mood);
+        result = component.gameObject.GetComponent<CameraFollowController>();
+        if (result == null) {
+          result = component.gameObject.AddComponent<CameraFollowController>();
+        }
       } else {
         EDM.modLog.Error?.Write($"unknown additional weather controller type {name}");
-        return new DefaultController(component, mood);
+        result = component.gameObject.GetComponent<DefaultController>();
+        if (result == null) {
+          result = component.gameObject.AddComponent<DefaultController>();
+        }
       }
+      result?.Init(component, mood);
+      result?.gameObject.SetActive(false);
+      result?.gameObject.SetActive(true);
+      return result;
     }
   }
   public class CustomMoodController: MonoBehaviour {
