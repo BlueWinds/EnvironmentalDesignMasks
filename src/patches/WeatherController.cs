@@ -9,26 +9,34 @@ namespace EnvironmentalDesignMasks {
   [HarmonyPatch(typeof(WeatherController), "Update")]
   public static class WeatherController_Update {
     public static float t = 0f;
+    public static bool PREVENT_FIRE = false;
     public static void Postfix(WeatherController __instance) {
-      t += Time.deltaTime;
-      if (t > 1f) {
-        t = 0f;
-        if (__instance.currentWeatherVFX.activeSelf == false) {
-          CustomWeatherController customWeatherController = __instance.gameObject.GetComponent<CustomWeatherController>();
-          if (customWeatherController != null) {
-            if(customWeatherController.currentCustomMood != null) {
-              if (customWeatherController.currentCustomMood.weatherSettings.forceWeatherVFXEnable.Value) {
-                __instance.currentWeatherVFX.gameObject.SetActive(true);
-                Transform[] transforms = __instance.currentWeatherVFX.GetComponentsInChildren<Transform>(true);
-                foreach (Transform tr in transforms) {
-                  EDM.modLog.Info?.Write($" {tr.gameObject.name} state: {tr.gameObject.activeSelf}");
-                  tr.gameObject.SetActive(true);
-                  EDM.modLog.Info?.Write($" {tr.gameObject.name} state: {tr.gameObject.activeSelf}");
+      if (PREVENT_FIRE) { return; }
+      try {
+        t += Time.deltaTime;
+        if (t > 1f) {
+          if (__instance.currentWeatherVFX == null) { return; }
+          t = 0f;
+          if (__instance.currentWeatherVFX.activeSelf == false) {
+            CustomWeatherController customWeatherController = __instance.gameObject.GetComponent<CustomWeatherController>();
+            if (customWeatherController != null) {
+              if (customWeatherController.currentCustomMood != null) {
+                if (customWeatherController.currentCustomMood.weatherSettings.forceWeatherVFXEnable.Value) {
+                  __instance.currentWeatherVFX.gameObject.SetActive(true);
+                  Transform[] transforms = __instance.currentWeatherVFX.GetComponentsInChildren<Transform>(true);
+                  foreach (Transform tr in transforms) {
+                    EDM.modLog.Info?.Write($" {tr.gameObject.name} state: {tr.gameObject.activeSelf}");
+                    tr.gameObject.SetActive(true);
+                    EDM.modLog.Info?.Write($" {tr.gameObject.name} state: {tr.gameObject.activeSelf}");
+                  }
                 }
               }
             }
           }
         }
+      }catch(Exception e) {
+        EDM.modLog.Error?.Write(e.ToString());
+        PREVENT_FIRE = true;
       }
     }
   }
