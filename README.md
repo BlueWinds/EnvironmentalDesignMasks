@@ -5,9 +5,13 @@ In `settings.json`, it is recommended to set `trace: false` when distributing to
 
 ## DesignMask extensions
 
-EDM allows DesignMasks to define a new field, `additionalStickyEffects`, which is an array of status effects to apply in addition to the normal `stickyEffect`. If `stickyEffect` is not defined, they will be ignored. Always use `stickyEffect` first.
+EDM allows DesignMasks to define a new field, `additionalStickyEffects`, which is an array of status effects to apply in addition to the normal `stickyEffect`. If `stickyEffect` is not defined, they will be ignored. Always use `stickyEffect` first. See the included `designmasks/DesignMaskVerdantDayWindy.json` for a usage example.
 
-See the included `designmasks/DesignMaskVerdantDayWindy.json` for a usage example.
+EDM also applies sticky effects from designMasks to all units occupying them at the start of each round - this ensures that units deployed in terrain gain its effects immediately, and allows biome design masks to use sticky effects properly.
+
+`stickyEffect`s on biomes (either from the biome design mask, or the one applied via a custom mood) are always applied to all units, but for other design masks, EDM respects the `unaffectedByDesignMaskStat` defined in `settings.json`. If a unit has this stat as `true`, then `stickyEffects` / `additionalStickyEffects` are not applied to it.
+
+The included sample settings.json file has `"unaffectedByDesignMaskStat": "CUDesignMasksUnaffected",`, which is probably the value you want.
 
 ## Selecting Moods
 EDM overrides the basegame logic for how Moods are selected. When generating a contract, EDM first assembles a list of all potential Moods, then draws one from the hat. This is done in two steps.

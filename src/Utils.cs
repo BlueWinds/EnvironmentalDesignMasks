@@ -166,5 +166,11 @@ namespace EnvironmentalDesignMasks {
                     return 0;
             }
         }
+
+        public static bool affectedByDesignMask(AbstractActor actor) {
+          string stat = EDM.settings.unaffectedByDesignMaskStat;
+          StatCollection stats = actor.StatCollection;
+          return !stats.ContainsStatistic(stat) || stats.GetStatistic(stat).Value<bool>() == false;
+        }
     }
 }

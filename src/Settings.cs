@@ -9,6 +9,7 @@ namespace EnvironmentalDesignMasks {
         public bool debug = false;
         public bool trace = false;
 
+        public string unaffectedByDesignMaskStat = "CUDesignMasksUnaffected";
         public Dictionary<Biome.BIOMESKIN, Dictionary<string, int>> biomeMoods = new Dictionary<Biome.BIOMESKIN, Dictionary<string, int>>();
         public Dictionary<string, Dictionary<Biome.BIOMESKIN, Dictionary<string, int>>> biomeMoodBySystemTag = new Dictionary<string, Dictionary<Biome.BIOMESKIN, Dictionary<string, int>>>();
 

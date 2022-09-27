@@ -33,15 +33,15 @@ namespace EnvironmentalDesignMasks {
         public static void Prefix(AbstractActor __instance) {
             try {
                 DesignMaskDef biomeDesignMask = UnityGameInstance.BattleTechGame.Combat.MapMetaData.biomeDesignMask;
-                applySticky(__instance, biomeDesignMask);
-                applySticky(__instance, __instance.occupiedDesignMask);
+                applySticky(__instance, biomeDesignMask, false);
+                applySticky(__instance, __instance.occupiedDesignMask, true);
             } catch (Exception e) {
                 EDM.modLog.Error?.Write(e);
             }
         }
 
-        public static void applySticky(AbstractActor actor, DesignMaskDef mask) {
-            if (mask == null || mask.stickyEffect == null) {
+        public static void applySticky(AbstractActor actor, DesignMaskDef mask, bool allowIgnore) {
+            if (mask == null || mask.stickyEffect == null || (allowIgnore && !Utils.affectedByDesignMask(actor))) {
                 return;
             }
 

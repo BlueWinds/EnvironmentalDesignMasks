@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Harmony;
 using BattleTech;
 using BattleTech.Data;
+using BattleTech.Rendering.Mood;
 using HBS;
 
 namespace EnvironmentalDesignMasks {
@@ -18,6 +19,13 @@ namespace EnvironmentalDesignMasks {
 
         private static bool Prefix(string mapPath, string overrideMapMood, ref string __result) {
             try {
+                // Certain travel-only contracts don't actually have a map, buth the game wants to know what mood to use
+                // for them? IDK, return early so we don't have errors in logs.
+                if (mapPath == null) {
+                    __result = MoodSettings.DefaultMood;
+                    return false;
+                }
+
                 Biome.BIOMESKIN biome = MetadataDatabase.Instance.GetBiomeForMapPath(mapPath).BiomeSkin;
                 EDM.modLog.Info?.Write($"[GetMood] mapPath: {mapPath}, overrideMapMood: {overrideMapMood}, biome: {biome}");
 

@@ -10,6 +10,9 @@ namespace EnvironmentalDesignMasks {
     public static class MapMetaData_Load {
         private static void Postfix(MapMetaData __instance) {
             try {
+                // CustomUnit's map preview functionality can cause map metadata to be loaded before Combat exists
+                if (UnityGameInstance.BattleTechGame.Combat == null) { return; }
+
                 string mood = UnityGameInstance.BattleTechGame.Combat.ActiveContract.mapMood;
                 if (EDM.customMoods.ContainsKey(mood) && EDM.customMoods[mood].designMask != null) {
                     string designMask = EDM.customMoods[mood].designMask;
