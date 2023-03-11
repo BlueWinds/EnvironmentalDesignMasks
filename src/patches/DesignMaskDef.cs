@@ -4,6 +4,7 @@ using System.Linq;
 using BattleTech;
 using Harmony;
 using Newtonsoft.Json.Linq;
+using HBS.Util;
 
 namespace EnvironmentalDesignMasks {
     [HarmonyPatch(typeof(DesignMaskDef), "FromJSON")]
@@ -17,18 +18,24 @@ namespace EnvironmentalDesignMasks {
                 }
 
                 string Id = (string)definition["Description"]["Id"];
-                EffectData[] additional = definition["additionalStickyEffects"].ToObject<EffectData[]>();
-                EDM.modLog.Debug?.Write($"Read {additional.Length} additionalStickyEffects for {Id}.");
+                int length = definition["additionalStickyEffects"].Count();
+
+                EDM.additionalStickyEffects[Id] = new EffectData[length];
+                EDM.modLog.Debug?.Write($"Read {length} additionalStickyEffects for {Id}.");
 
                 int i = 0;
-                foreach (EffectData effect in additional) {
-                    JToken d = definition["additionalStickyEffects"][i]["Description"];
+                foreach (JObject additional in definition["additionalStickyEffects"]) {
+                    EffectData effect = new EffectData();
+                    JSONSerializationUtility.FromJSON<EffectData>(effect, additional.ToString());
+
+                    JToken d = additional["Description"];
 
                     effect.Description = new BaseDescriptionDef(d["Id"].ToObject<string>(), d["Name"].ToObject<string>(), d["Details"].ToObject<string>(), d["Icon"].ToObject<string>());
+
+                    EDM.additionalStickyEffects[Id][i] = effect;
                     i++;
                 }
 
-                EDM.additionalStickyEffects[Id] = additional;
                 definition.Remove("additionalStickyEffects");
                 json = definition.ToString();
             } catch (Exception e) {
