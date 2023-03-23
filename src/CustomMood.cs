@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Reflection;
 using BattleTech;
 using BattleTech.Data;
 using BattleTech.Rendering;
@@ -238,7 +237,7 @@ namespace EnvironmentalDesignMasks {
             MoodSettings.GetAllMoods(false).Add(s);
 
             m.Mood_MDD = new Mood_MDD(m.ID, m.ID, m.ID, s.moodTags.GetTagSetSourceFile());
-            Traverse.Create(m.Mood_MDD).Field("moodSettings").SetValue(s);
+            m.Mood_MDD.moodSettings = s;
 
             return m;
         }

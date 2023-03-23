@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using Harmony;
 using BattleTech;
 using BattleTech.Rendering.Mood;

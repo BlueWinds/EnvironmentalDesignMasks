@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using BattleTech;
 using BattleTech.Data;
 using BattleTech.Rendering;
 using BattleTech.UI;
+using HBS.Collections;
 using Harmony;
 
 namespace EnvironmentalDesignMasks {
@@ -18,7 +20,7 @@ namespace EnvironmentalDesignMasks {
                 if (EDM.settings.briefingCameraTimeTags.Count <= 0 || moodTags.Count <= 0) {
                     return;
                 }
-                foreach (int tagSetting in EDM.settings.briefingCameraTimeTags) {
+                foreach (KeyValuePair<string, List<int>> tagSetting in EDM.settings.briefingCameraTimeTags) {
                     if (!moodTags.Contains(tagSetting.Key)) {
                         continue;
                     }
